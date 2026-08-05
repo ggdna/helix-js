@@ -1,0 +1,83 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# The pubspec uses a workspace path dependency on ../../ggsuite/gg_dna, so
+# CI recreates that layout: this repo at tssuite/gg_dna-js-bridge and
+# ggsuite/gg_dna next to it. Once gg_dna ^5.0.0 is hosted on pub.dev the
+# extra checkout can be dropped together with the path dependency.
+
+defaults:
+  run:
+    working-directory: tssuite/gg_dna-js-bridge
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: tssuite/gg_dna-js-bridge
+
+      - name: Checkout gg_dna (workspace path dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: ggsuite/gg_dna
+          path: ggsuite/gg_dna
+
+      - name: Cache Dart pub
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-dart-${{ hashFiles('tssuite/gg_dna-js-bridge/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-dart-
+
+      - name: Set up Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('tssuite/gg_dna-js-bridge/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install Dart dependencies
+        run: dart pub get
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Dart tests
+        run: dart test
+
+      - name: Build (Dart → Wasm, then TS)
+        run: pnpm run build
+
+      - name: Vitest
+        run: pnpm run test:vitest
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Prettier (format check)
+        run: pnpm run format:check
