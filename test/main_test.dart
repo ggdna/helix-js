@@ -140,7 +140,7 @@ void main() {
         containsAll(<String>[
           'dna/_vars.json',
           'dna/_dna.json',
-          'dna/.instances.json',
+          'dna/_instances.json',
         ]),
       );
       expect(_strings(result, 'modifiedInstances'), isEmpty);
