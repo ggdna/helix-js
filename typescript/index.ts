@@ -55,6 +55,12 @@ export interface DnaHostCallbacks {
    * Used to protect individual files from being overwritten.
    */
   uncommittedPaths(repoRoot: string): string[];
+  /**
+   * Commits exactly `paths` (relative to `repoRoot`) with `message`,
+   * leaving every other change untouched. Throws when committing is not
+   * possible (no repository, no git identity).
+   */
+  commitPaths(repoRoot: string, paths: string[], message: string): void;
 }
 
 /** Outcome of one DNA instantiation run (mirrors gg_dna's result type). */
@@ -78,6 +84,12 @@ export interface DnaInstantiationResult {
    * the generated one. Paths without a DNA source are absent.
    */
   sources: Record<string, string>;
+  /**
+   * Whether `updated` was committed automatically as
+   * "#gg: generated DNA". `false` means the files still need a manual
+   * commit (no repository, no git identity).
+   */
+  committed: boolean;
 }
 
 /** The bridge surface exposed to JS/TS callers. */

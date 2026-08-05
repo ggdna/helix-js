@@ -53,6 +53,7 @@ import 'package:gg_dna/src/util/dna_fs.dart';
 ///   rename(from: string, to: string): void
 ///   listFilesRecursive(dir: string): string[]    // relative posix, files
 ///   uncommittedPaths(repoRoot: string): string[] // relative posix
+///   commitPaths(repoRoot: string, paths: string[], message: string): void
 /// }
 /// ```
 extension type JsDnaHost._(JSObject _) implements JSObject {
@@ -87,6 +88,13 @@ extension type JsDnaHost._(JSObject _) implements JSObject {
   /// All paths below `repoRoot` carrying uncommitted work, relative to
   /// `repoRoot`.
   external JSArray<JSString> uncommittedPaths(String repoRoot);
+
+  /// Commits exactly `paths` with `message`; throws when impossible.
+  external void commitPaths(
+    String repoRoot,
+    JSArray<JSString> paths,
+    String message,
+  );
 }
 
 /// JS view of a [DnaInstantiationResult]: `{ messages, warnings,
@@ -99,6 +107,7 @@ extension type _InstantiationResultJs._(JSObject _) implements JSObject {
     required JSArray<JSString> updated,
     required JSArray<JSString> uncommittedTargets,
     required JSObject sources,
+    required bool committed,
   });
 }
 
@@ -154,6 +163,10 @@ class CallbackDnaHost implements DnaHost {
   @override
   Set<String> uncommittedPaths(String repoRoot) =>
       js.uncommittedPaths(repoRoot).toDart.map((e) => e.toDart).toSet();
+
+  @override
+  void commitPaths(String repoRoot, List<String> paths, String message) =>
+      js.commitPaths(repoRoot, _toJsStrings(paths), message);
 }
 
 // .............................................................................
@@ -195,6 +208,7 @@ class DartBridge {
         updated: _toJsStrings(result.updated),
         uncommittedTargets: _toJsStrings(result.uncommittedTargets),
         sources: _toJsRecord(result.sources),
+        committed: result.committed,
       );
     });
   }

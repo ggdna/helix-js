@@ -137,11 +137,15 @@ void main() {
 
       expect(
         _strings(result, 'updated'),
-        containsAll(<String>['dna/_vars.json', 'dna/.dna.json']),
+        containsAll(<String>[
+          'dna/_vars.json',
+          'dna/_dna.json',
+          'dna/.instances.json',
+        ]),
       );
       expect(_strings(result, 'modifiedInstances'), isEmpty);
       expect(_strings(result, 'uncommittedTargets'), isEmpty);
-      expect(mem.existsFile('/proj/dna/.dna.json'), isTrue);
+      expect(mem.existsFile('/proj/dna/_dna.json'), isTrue);
     });
 
     test('reports uncommittedTargets for a dirty overwrite target', () {
@@ -151,8 +155,8 @@ void main() {
       final bridge = DartBridge();
       // First run creates the manifest, then it becomes dirty.
       bridge.instantiate(jsHostAround(mem), '/proj', null, '5.0.0');
-      mem.writeString('/proj/dna/.dna.json', '{"version": 5}');
-      mem.uncommitted.add('dna/.dna.json');
+      mem.writeString('/proj/dna/_dna.json', '{"version": 5}');
+      mem.uncommitted.add('dna/_dna.json');
 
       final result = bridge.instantiate(
         jsHostAround(mem),
@@ -161,13 +165,13 @@ void main() {
         '5.0.0',
       );
 
-      expect(_strings(result, 'uncommittedTargets'), ['dna/.dna.json']);
+      expect(_strings(result, 'uncommittedTargets'), ['dna/_dna.json']);
       expect(_strings(result, 'updated'), isEmpty);
-      expect(mem.readString('/proj/dna/.dna.json'), '{"version": 5}');
+      expect(mem.readString('/proj/dna/_dna.json'), '{"version": 5}');
       // The manifest has no DNA source — the record stays empty for it.
       expect(
         (result.getProperty('sources'.toJS) as JSObject)
-            .getProperty('dna/.dna.json'.toJS),
+            .getProperty('dna/_dna.json'.toJS),
         isNull,
       );
     });
