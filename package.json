@@ -1,6 +1,6 @@
 {
   "name": "@tssuite/gg_dna-js",
-  "version": "2.0.0",
+  "version": "1.0.1",
   "description": "The gg_dna DNA engine compiled to WebAssembly — instantiates and verifies a project's DNA from TypeScript test runs.",
   "keywords": [
     "dna",

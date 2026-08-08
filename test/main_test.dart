@@ -132,7 +132,7 @@ void main() {
         jsHostAround(mem),
         '/proj',
         null,
-        '5.0.0',
+        '4.0.0',
       );
 
       expect(
@@ -150,7 +150,7 @@ void main() {
       );
       final bridge = DartBridge();
       // First run creates the manifest, then it becomes dirty.
-      bridge.instantiate(jsHostAround(mem), '/proj', null, '5.0.0');
+      bridge.instantiate(jsHostAround(mem), '/proj', null, '4.0.0');
       mem.writeString('/proj/dna/_generated.json', '{"version": 1}');
       mem.uncommitted.add('dna/_generated.json');
 
@@ -158,7 +158,7 @@ void main() {
         jsHostAround(mem),
         '/proj',
         null,
-        '5.0.0',
+        '4.0.0',
       );
 
       expect(_strings(result, 'uncommittedTargets'), ['dna/_generated.json']);
@@ -193,7 +193,7 @@ void main() {
         jsHostAround(mem),
         '/proj',
         null,
-        '5.0.0',
+        '4.0.0',
       );
 
       expect(_strings(result, 'uncommittedTargets'), ['doc/hello.md']);
@@ -223,7 +223,7 @@ void main() {
         jsHostAround(mem),
         '/proj',
         null,
-        '5.0.0',
+        '4.0.0',
       );
 
       final error = result.getProperty('error'.toJS) as JSString?;

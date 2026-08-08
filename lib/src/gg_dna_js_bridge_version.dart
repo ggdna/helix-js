@@ -9,4 +9,4 @@
 // coverage:ignore-file
 
 /// The version of the `gg_dna_js_bridge` package.
-const String ggDnaJsBridgeVersion = '2.0.0';
+const String ggDnaJsBridgeVersion = '1.0.1';
