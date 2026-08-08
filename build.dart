@@ -116,6 +116,19 @@ Future<void> _syncBaseDna() async {
     exit(2);
   }
 
+  // The agent skills are the part of the base DNA most easily lost: a
+  // gg_dna published before the `dot-` escape existed shipped them as
+  // `dna/.claude/`, and `dart pub publish` drops every path with a
+  // leading dot — so the bundle would silently carry a base DNA without
+  // any skills. Fail loudly instead of publishing that.
+  if (!Directory('$ggDnaRoot/dna/dot-claude').existsSync()) {
+    stderr.writeln(red(
+      'gg_dna at $ggDnaRoot ships no dna/dot-claude — its agent skills '
+      'would be missing from the bundle. Use gg_dna 5.0 or newer.',
+    ));
+    exit(2);
+  }
+
   final target = Directory(baseDnaFolder);
   if (target.existsSync()) {
     target.deleteSync(recursive: true);

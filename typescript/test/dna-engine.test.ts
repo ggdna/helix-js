@@ -61,11 +61,23 @@ function makeFixture(): string {
   );
   writeFileSync(join(root, 'LICENSE'), 'MIT — fixture license.\n');
 
+  // Layers are explicit: nothing is inferred from the dependencies.
+  mkdirSync(join(root, 'dna'), { recursive: true });
+  writeFileSync(
+    join(root, 'dna', '_dna.json'),
+    JSON.stringify({ version: 1, layers: ['fake-dna'] }, null, 2) + '\n',
+  );
+
   const fakeDna = join(root, 'node_modules', 'fake-dna');
   mkdirSync(join(fakeDna, 'dna', 'doc'), { recursive: true });
   writeFileSync(
     join(fakeDna, 'package.json'),
     JSON.stringify({ name: 'fake-dna', version: '1.0.0' }, null, 2) + '\n',
+  );
+  // A dna/ folder alone does not make a DNA package — it has to say so.
+  writeFileSync(
+    join(fakeDna, 'dna', '_dna.json'),
+    JSON.stringify({ version: 1, role: 'dna', layers: [] }, null, 2) + '\n',
   );
   writeFileSync(
     join(fakeDna, 'dna', 'doc', 'hello.md'),
@@ -163,7 +175,28 @@ describe('runDnaTest (wasm engine, node host)', () => {
       expect(readFileSync(join(root, 'doc', 'hello.md'), 'utf8')).toBe(
         '# My own notes\n',
       );
-      expect(existsSync(join(root, 'dna', '_dna.json'))).toBe(false);
+      expect(existsSync(join(root, 'dna', '_generated.json'))).toBe(false);
+    },
+    120000,
+  );
+
+  test.skipIf(!runnable)(
+    'surfaces engine failures with a readable message',
+    async () => {
+      const root = makeFixture();
+
+      // A DNA layer that is not installed — the engine fails. Its message
+      // has to reach the caller: a Dart throw would arrive as an opaque
+      // `WebAssembly.Exception`.
+      writeFileSync(
+        join(root, 'dna', '_dna.json'),
+        JSON.stringify({ version: 1, layers: ['not-installed'] }, null, 2) +
+          '\n',
+      );
+
+      await expect(runDnaTest({ targetRoot: root })).rejects.toThrowError(
+        /not-installed/,
+      );
     },
     120000,
   );

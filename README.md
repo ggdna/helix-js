@@ -1,4 +1,4 @@
-# @tssuite/gg-dna
+# @tssuite/gg_dna-js
 
 The [gg_dna](https://github.com/ggsuite/gg_dna) DNA engine compiled to
 WebAssembly — instantiates and verifies a project's DNA from TypeScript
@@ -16,7 +16,7 @@ injected from JavaScript as a callback host.
 TypeScript projects consuming DNA place a single Vitest spec:
 
 ```ts
-import { runDnaTest } from '@tssuite/gg-dna';
+import { runDnaTest } from '@tssuite/gg_dna-js';
 
 test('dna is instantiated and unmodified', async () => {
   await runDnaTest();
@@ -91,7 +91,7 @@ subdirectory checkouts) via `node:child_process`. Custom hosts can call
 the lower-level API directly:
 
 ```ts
-import { init } from '@tssuite/gg-dna';
+import { init } from '@tssuite/gg_dna-js';
 const bridge = await init();
 const result = bridge.instantiate(host, targetRoot, baseDnaRoot, '5.0.0');
 ```
