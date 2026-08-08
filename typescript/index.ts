@@ -102,7 +102,11 @@ export interface DnaBridgeError {
   error: string;
 }
 
-/** Whether `result` is a {@link DnaBridgeError} rather than a result. */
+/**
+ * Whether `result` is a {@link DnaBridgeError} rather than a result.
+ * @param result - The value returned by `DartBridge.instantiate`.
+ * @returns `true` when the run failed.
+ */
 export function isDnaBridgeError(
   result: DnaInstantiationResult | DnaBridgeError,
 ): result is DnaBridgeError {

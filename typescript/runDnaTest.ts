@@ -14,7 +14,7 @@
 // only supplies the host callbacks (node:fs, git) and the bundled base DNA.
 
 import type { DnaHostCallbacks, DnaInstantiationResult } from './index.js';
-import { init } from './index.js';
+import { init, isDnaBridgeError } from './index.js';
 
 /** Headline for hand-edited generated files (verbatim from gg_dna). */
 export const modifiedInstancesMessage = 'Generated files modified by hand:';
@@ -71,7 +71,7 @@ export interface RunDnaTestOptions {
  * Entry point for the placed DNA test:
  *
  * ```ts
- * import { runDnaTest } from '@tssuite/gg-dna';
+ * import { runDnaTest } from '@tssuite/gg_dna-js';
  * test('dna is instantiated and unmodified', async () => {
  *   await runDnaTest();
  * }, 120000);
@@ -151,6 +151,23 @@ export async function runDnaTest(
   }
 }
 
+/**
+ * Describes a non-`Error` throw. `String(e)` alone degrades exotic values —
+ * a `WebAssembly.Exception` for instance stringifies to
+ * `[object WebAssembly.Exception]` — so the constructor name is kept as the
+ * one piece of information that survives.
+ * @param e - The thrown value.
+ * @returns A message naming what was thrown.
+ */
+function describeThrown(e: unknown): string {
+  const text = String(e);
+  const name = (e as { constructor?: { name?: string } } | null | undefined)
+    ?.constructor?.name;
+  return name === undefined || text.includes(name)
+    ? text
+    : `${name}: ${text}`;
+}
+
 // -----------------------------------------------------------------------------
 // Bundled base DNA
 // -----------------------------------------------------------------------------
@@ -175,7 +192,7 @@ function resolveBaseDnaRoot(fs: FsModule, fileURLToPath: FileUrlToPath): string 
     if (fs.existsSync(`${root}/dna`)) return root;
   }
   throw new Error(
-    'Bundled base DNA not found next to @tssuite/gg-dna — ' +
+    'Bundled base DNA not found next to @tssuite/gg_dna-js — ' +
       'run `pnpm run build` (dart run build.dart + build:ts) first.',
   );
 }

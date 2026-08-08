@@ -137,15 +137,11 @@ void main() {
 
       expect(
         _strings(result, 'updated'),
-        containsAll(<String>[
-          'dna/_vars.json',
-          'dna/_dna.json',
-          'dna/_instances.json',
-        ]),
+        containsAll(<String>['dna/_vars.json', 'dna/_generated.json']),
       );
       expect(_strings(result, 'modifiedInstances'), isEmpty);
       expect(_strings(result, 'uncommittedTargets'), isEmpty);
-      expect(mem.existsFile('/proj/dna/_dna.json'), isTrue);
+      expect(mem.existsFile('/proj/dna/_generated.json'), isTrue);
     });
 
     test('reports uncommittedTargets for a dirty overwrite target', () {
@@ -155,8 +151,8 @@ void main() {
       final bridge = DartBridge();
       // First run creates the manifest, then it becomes dirty.
       bridge.instantiate(jsHostAround(mem), '/proj', null, '5.0.0');
-      mem.writeString('/proj/dna/_dna.json', '{"version": 5}');
-      mem.uncommitted.add('dna/_dna.json');
+      mem.writeString('/proj/dna/_generated.json', '{"version": 6}');
+      mem.uncommitted.add('dna/_generated.json');
 
       final result = bridge.instantiate(
         jsHostAround(mem),
@@ -165,13 +161,13 @@ void main() {
         '5.0.0',
       );
 
-      expect(_strings(result, 'uncommittedTargets'), ['dna/_dna.json']);
+      expect(_strings(result, 'uncommittedTargets'), ['dna/_generated.json']);
       expect(_strings(result, 'updated'), isEmpty);
-      expect(mem.readString('/proj/dna/_dna.json'), '{"version": 5}');
+      expect(mem.readString('/proj/dna/_generated.json'), '{"version": 6}');
       // The manifest has no DNA source — the record stays empty for it.
       expect(
         (result.getProperty('sources'.toJS) as JSObject)
-            .getProperty('dna/_dna.json'.toJS),
+            .getProperty('dna/_generated.json'.toJS),
         isNull,
       );
     });
@@ -180,9 +176,12 @@ void main() {
       final mem = MemoryDnaHost(
         files: {
           '/proj/package.json': '{"name": "proj", "version": "1.0.0", '
-              '"devDependencies": {"a-dna": "^1.0.0"}}',
+              '"dependencies": {"a-dna": "^1.0.0"}}',
+          '/proj/dna/_dna.json': '{"version": 6, "layers": ["a-dna"]}',
           '/proj/node_modules/a-dna/package.json':
               '{"name": "a-dna", "version": "1.0.0"}',
+          '/proj/node_modules/a-dna/dna/_dna.json':
+              '{"version": 6, "role": "dna"}',
           '/proj/node_modules/a-dna/dna/doc/hello.md': '# Hello\n',
           '/proj/doc/hello.md': '# My own notes\n',
         },
@@ -204,6 +203,33 @@ void main() {
             .toDart,
         'a-dna/dna/doc/hello.md',
       );
+    });
+
+    test('reports engine failures as a readable { error } value', () {
+      // `dna/_dna.json` names a DNA layer that is not installed — the
+      // engine throws, and the bridge must hand the message to JS as a
+      // value: a Dart throw would arrive as an opaque
+      // WebAssembly.Exception.
+      final mem = MemoryDnaHost(
+        files: {
+          '/proj/package.json': '{"name": "proj", "version": "1.0.0"}',
+          '/proj/dna/_dna.json':
+              '{"version": 6, "layers": ["not-installed"]}',
+        },
+      );
+      final bridge = DartBridge();
+
+      final result = bridge.instantiate(
+        jsHostAround(mem),
+        '/proj',
+        null,
+        '5.0.0',
+      );
+
+      final error = result.getProperty('error'.toJS) as JSString?;
+      expect(error, isNotNull);
+      expect(error!.toDart, contains('not-installed'));
+      expect(result.getProperty('updated'.toJS), isNull);
     });
   });
 }
