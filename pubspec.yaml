@@ -2,7 +2,7 @@ name: gg_dna_js_bridge
 description: >
   The gg_dna DNA engine compiled to WebAssembly — instantiates and
   verifies a project's DNA from TypeScript test runs.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/tssuite/gg_dna-js-bridge.git
 publish_to: none
 
