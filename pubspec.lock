@@ -124,10 +124,9 @@ packages:
   gg_dna:
     dependency: "direct main"
     description:
-      name: gg_dna
-      sha256: "130fd20694f20ed9b1454142bb3d8c7f6c14b10b000efc535777e0a0f969c9b3"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../ggsuite/gg_dna"
+      relative: true
+    source: path
     version: "4.0.0"
   gg_hash:
     dependency: transitive
