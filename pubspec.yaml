@@ -10,7 +10,7 @@ environment:
   sdk: '>=3.11.0 <4.0.0'
 
 dependencies:
-  gg_dna: ^4.0.1
+  gg_dna: ^4.0.2
 
 dev_dependencies:
   gg_console_colors: ^2.3.0
