@@ -10,10 +10,7 @@ environment:
   sdk: '>=3.11.0 <4.0.0'
 
 dependencies:
-  # Workspace path dependency. For release, switch to the hosted
-  # package: gg_dna: ^5.0.0
-  gg_dna:
-    path: ../../ggsuite/gg_dna
+  gg_dna: ^4.0.0
 
 dev_dependencies:
   gg_console_colors: ^2.3.0
