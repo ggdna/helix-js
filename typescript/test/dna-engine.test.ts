@@ -65,7 +65,7 @@ function makeFixture(): string {
   mkdirSync(join(root, 'dna'), { recursive: true });
   writeFileSync(
     join(root, 'dna', '_dna.json'),
-    JSON.stringify({ version: 6, layers: ['fake-dna'] }, null, 2) + '\n',
+    JSON.stringify({ version: 1, layers: ['fake-dna'] }, null, 2) + '\n',
   );
 
   const fakeDna = join(root, 'node_modules', 'fake-dna');
@@ -77,7 +77,7 @@ function makeFixture(): string {
   // A dna/ folder alone does not make a DNA package — it has to say so.
   writeFileSync(
     join(fakeDna, 'dna', '_dna.json'),
-    JSON.stringify({ version: 6, role: 'dna', layers: [] }, null, 2) + '\n',
+    JSON.stringify({ version: 1, role: 'dna', layers: [] }, null, 2) + '\n',
   );
   writeFileSync(
     join(fakeDna, 'dna', 'doc', 'hello.md'),
@@ -190,7 +190,7 @@ describe('runDnaTest (wasm engine, node host)', () => {
       // `WebAssembly.Exception`.
       writeFileSync(
         join(root, 'dna', '_dna.json'),
-        JSON.stringify({ version: 6, layers: ['not-installed'] }, null, 2) +
+        JSON.stringify({ version: 1, layers: ['not-installed'] }, null, 2) +
           '\n',
       );
 

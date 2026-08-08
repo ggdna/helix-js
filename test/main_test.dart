@@ -151,7 +151,7 @@ void main() {
       final bridge = DartBridge();
       // First run creates the manifest, then it becomes dirty.
       bridge.instantiate(jsHostAround(mem), '/proj', null, '5.0.0');
-      mem.writeString('/proj/dna/_generated.json', '{"version": 6}');
+      mem.writeString('/proj/dna/_generated.json', '{"version": 1}');
       mem.uncommitted.add('dna/_generated.json');
 
       final result = bridge.instantiate(
@@ -163,7 +163,7 @@ void main() {
 
       expect(_strings(result, 'uncommittedTargets'), ['dna/_generated.json']);
       expect(_strings(result, 'updated'), isEmpty);
-      expect(mem.readString('/proj/dna/_generated.json'), '{"version": 6}');
+      expect(mem.readString('/proj/dna/_generated.json'), '{"version": 1}');
       // The manifest has no DNA source — the record stays empty for it.
       expect(
         (result.getProperty('sources'.toJS) as JSObject)
@@ -177,11 +177,11 @@ void main() {
         files: {
           '/proj/package.json': '{"name": "proj", "version": "1.0.0", '
               '"dependencies": {"a-dna": "^1.0.0"}}',
-          '/proj/dna/_dna.json': '{"version": 6, "layers": ["a-dna"]}',
+          '/proj/dna/_dna.json': '{"version": 1, "layers": ["a-dna"]}',
           '/proj/node_modules/a-dna/package.json':
               '{"name": "a-dna", "version": "1.0.0"}',
           '/proj/node_modules/a-dna/dna/_dna.json':
-              '{"version": 6, "role": "dna"}',
+              '{"version": 1, "role": "dna"}',
           '/proj/node_modules/a-dna/dna/doc/hello.md': '# Hello\n',
           '/proj/doc/hello.md': '# My own notes\n',
         },
@@ -214,7 +214,7 @@ void main() {
         files: {
           '/proj/package.json': '{"name": "proj", "version": "1.0.0"}',
           '/proj/dna/_dna.json':
-              '{"version": 6, "layers": ["not-installed"]}',
+              '{"version": 1, "layers": ["not-installed"]}',
         },
       );
       final bridge = DartBridge();
