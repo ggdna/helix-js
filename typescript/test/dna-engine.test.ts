@@ -96,21 +96,26 @@ describe('runDnaTest (wasm engine, node host)', () => {
     async () => {
       const root = makeFixture();
 
-      // 1st run: the engine instantiates the base DNA + fake-dna layer and
-      // fails once so the writes get reviewed and committed.
-      await expect(
-        runDnaTest({ targetRoot: root }),
-      ).rejects.toThrowError(/DNA instances updated — review & commit/);
+      // The engine instantiates the base DNA + fake-dna layer and commits
+      // what it generated — the working tree stays clean.
+      await expect(runDnaTest({ targetRoot: root })).resolves.toBeUndefined();
 
-      // The fake layer's document was instantiated into the project.
       expect(existsSync(join(root, 'doc', 'hello.md'))).toBe(true);
       expect(existsSync(join(root, 'dna', 'doc', 'hello.md'))).toBe(true);
+      expect(
+        execFileSync('git', ['log', '-1', '--pretty=%s'], {
+          cwd: root,
+          encoding: 'utf8',
+        }).trim(),
+      ).toBe('#gg: generated DNA');
+      expect(
+        execFileSync('git', ['status', '--porcelain'], {
+          cwd: root,
+          encoding: 'utf8',
+        }).trim(),
+      ).toBe('');
 
-      // Commit the generated state …
-      git(root, 'add', '-A');
-      git(root, 'commit', '-m', 'dna instantiated');
-
-      // … then the 2nd run passes: everything is up to date and unmodified.
+      // The 2nd run has nothing left to do.
       await expect(runDnaTest({ targetRoot: root })).resolves.toBeUndefined();
     },
     120000,
@@ -124,10 +129,16 @@ describe('runDnaTest (wasm engine, node host)', () => {
       // Dirty an unrelated file before the first instantiation.
       writeFileSync(join(root, 'uncommitted.txt'), 'dirty\n');
 
-      await expect(runDnaTest({ targetRoot: root })).rejects.toThrowError(
-        /DNA instances updated — review & commit/,
-      );
+      await expect(runDnaTest({ targetRoot: root })).resolves.toBeUndefined();
       expect(existsSync(join(root, 'doc', 'hello.md'))).toBe(true);
+      // The unrelated file is still dirty — only generated files were
+      // committed.
+      expect(
+        execFileSync('git', ['status', '--porcelain'], {
+          cwd: root,
+          encoding: 'utf8',
+        }),
+      ).toContain('uncommitted.txt');
     },
     120000,
   );
@@ -145,14 +156,14 @@ describe('runDnaTest (wasm engine, node host)', () => {
       // The report explains the file is produced by the DNA and names
       // the source to edit instead.
       await expect(runDnaTest({ targetRoot: root })).rejects.toThrowError(
-        /produced by the DNA[\s\S]*edit instead: fake-dna\/dna\/doc\/hello\.md/,
+        /invalid changes[\s\S]*Move edits from[\s\S]*fake-dna\/dna\/doc\/hello\.md/,
       );
 
       // Nothing was written; the file survived untouched.
       expect(readFileSync(join(root, 'doc', 'hello.md'), 'utf8')).toBe(
         '# My own notes\n',
       );
-      expect(existsSync(join(root, 'dna', '.dna.json'))).toBe(false);
+      expect(existsSync(join(root, 'dna', '_dna.json'))).toBe(false);
     },
     120000,
   );
