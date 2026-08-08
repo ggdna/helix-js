@@ -92,6 +92,23 @@ export interface DnaInstantiationResult {
   committed: boolean;
 }
 
+/**
+ * A run that failed inside the engine. The bridge reports failures as a
+ * value rather than throwing them: a Dart throw crosses the wasm boundary
+ * as an opaque `WebAssembly.Exception` with an unreadable payload.
+ */
+export interface DnaBridgeError {
+  /** The failure message, and a stack trace for unexpected errors. */
+  error: string;
+}
+
+/** Whether `result` is a {@link DnaBridgeError} rather than a result. */
+export function isDnaBridgeError(
+  result: DnaInstantiationResult | DnaBridgeError,
+): result is DnaBridgeError {
+  return typeof (result as DnaBridgeError).error === 'string';
+}
+
 /** The bridge surface exposed to JS/TS callers. */
 export interface DartBridge {
   /**
@@ -99,13 +116,15 @@ export interface DartBridge {
    * via `host`. `baseDnaRoot` points at the bundled gg_dna package root
    * (its `dna/` subfolder is the implicit base layer); `baseVersion` is
    * the gg_dna version recorded in the manifest.
+   *
+   * Returns a {@link DnaBridgeError} when the run failed.
    */
   instantiate(
     host: DnaHostCallbacks,
     targetRoot: string,
     baseDnaRoot: string | null,
     baseVersion: string,
-  ): DnaInstantiationResult;
+  ): DnaInstantiationResult | DnaBridgeError;
 }
 
 /** Options for `init()`. */

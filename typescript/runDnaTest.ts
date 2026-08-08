@@ -103,9 +103,18 @@ export async function runDnaTest(
 
   let result: DnaInstantiationResult;
   try {
-    result = bridge.instantiate(host, targetRoot, baseDnaRoot, baseVersion);
+    const outcome = bridge.instantiate(
+      host,
+      targetRoot,
+      baseDnaRoot,
+      baseVersion,
+    );
+    // The engine reports its own failures as `{ error }` — a Dart throw
+    // would reach us as an unreadable `WebAssembly.Exception`.
+    if (isDnaBridgeError(outcome)) throw new Error(outcome.error);
+    result = outcome;
   } catch (e) {
-    throw e instanceof Error ? e : new Error(String(e));
+    throw e instanceof Error ? e : new Error(describeThrown(e));
   }
 
   for (const warning of result.warnings) {

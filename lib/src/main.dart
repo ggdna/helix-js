@@ -97,6 +97,12 @@ extension type JsDnaHost._(JSObject _) implements JSObject {
   );
 }
 
+/// JS view of a failed run: `{ error: string }`. Errors are reported as a
+/// value instead of being thrown — see [_guard].
+extension type _BridgeErrorJs._(JSObject _) implements JSObject {
+  external _BridgeErrorJs({required String error});
+}
+
 /// JS view of a [DnaInstantiationResult]: `{ messages, warnings,
 /// modifiedInstances, updated, uncommittedTargets, sources }`.
 extension type _InstantiationResultJs._(JSObject _) implements JSObject {
@@ -188,6 +194,8 @@ class DartBridge {
   /// (its `dna/` subfolder is the implicit base layer); pass `null` to run
   /// without a base layer. [baseVersion] is the gg_dna version recorded in
   /// the manifest.
+  ///
+  /// A failed run returns `{ error: string }` instead — see [_guard].
   JSObject instantiate(
     JSObject host,
     String targetRoot,
@@ -228,17 +236,28 @@ JSArray<JSString> _toJsStrings(List<String> list) =>
     list.map((s) => s.toJS).toList().toJS;
 
 // .............................................................................
-// Error guard: convert Dart exceptions (FormatException from config /
-// collision errors, Exception from the engine) to JS-throwable errors with
-// a readable message. Without this the JS side sees opaque interop objects.
+// Error guard: report Dart exceptions (FormatException from config /
+// collision errors, Exception from the engine) as a `{ error }` value.
+//
+// Errors must not be *thrown* across the wasm boundary: dart2wasm turns
+// every Dart throw — including `throw someJsValue` — into an opaque
+// `WebAssembly.Exception` whose payload JS cannot read, so the caller sees
+// nothing but "[object WebAssembly.Exception]". Returning the message keeps
+// it readable; the TypeScript side turns it back into a real `Error`.
 
-T _guard<T>(T Function() body) {
+JSObject _guard(JSObject Function() body) {
   try {
     return body();
   } catch (e, st) {
-    throw '$e\n$st'.toJS;
+    return _BridgeErrorJs(error: _describeError(e, st));
   }
 }
+
+/// Renders [e] for the JS caller. Engine failures carry their own message
+/// and are reported plainly; anything else is a bug in the bridge or the
+/// engine and keeps its stack trace.
+String _describeError(Object e, StackTrace st) =>
+    e is Exception || e is String ? '$e' : '$e\n$st';
 
 // .............................................................................
 // Bind to globalThis. The TypeScript wrapper reads `globalThis.dartBridge`
