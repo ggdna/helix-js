@@ -127,7 +127,7 @@ packages:
       path: "../../ggsuite/gg_dna"
       relative: true
     source: path
-    version: "4.0.1"
+    version: "4.0.2"
   gg_hash:
     dependency: transitive
     description:
