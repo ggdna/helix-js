@@ -18,8 +18,8 @@ importers:
         specifier: ^10.8.1
         version: 10.8.1(supports-color@7.2.0)
       eslint-plugin-jsdoc:
-        specifier: ^64.0.0
-        version: 64.0.0(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)
+        specifier: ^64.0.1
+        version: 64.0.1(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-tsdoc:
         specifier: ^0.5.2
         version: 0.5.2(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
@@ -509,8 +509,8 @@ packages:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
 
-  eslint-plugin-jsdoc@64.0.0:
-    resolution: {integrity: sha512-Bo0CmZ5ni3DObxSw0VgAoCHHn3Y1kzhoSAU4nAjIXKaj69GtA27mM8GfwVu93rupY71xjhJXhzaYmyqnWaaC6Q==}
+  eslint-plugin-jsdoc@64.0.1:
+    resolution: {integrity: sha512-WfEdwOUWNcndV+oogANwff4Y4rd3tJ9EBzzUO2U5FGSFqHM4FwwDi4kYPhl5IVhUZAVQozYiQfts9ea0TUa7lg==}
     engines: {node: ^22.22.2 || >=24.15.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -1586,7 +1586,7 @@ snapshots:
 
   escape-string-regexp@5.0.0: {}
 
-  eslint-plugin-jsdoc@64.0.0(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0):
+  eslint-plugin-jsdoc@64.0.1(eslint@10.8.1(supports-color@7.2.0))(supports-color@7.2.0):
     dependencies:
       '@es-joy/jsdoccomment': 0.93.1
       '@es-joy/resolve.exports': 1.2.0
