@@ -2,4 +2,4 @@
 // Kept in sync by test/gg_dna_js_version.test.ts.
 
 /** The version of the `@tssuite/gg_dna-js` package. */
-export const ggDnaJsVersion = '1.0.1';
+export const ggDnaJsVersion = '1.1.0';

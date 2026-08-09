@@ -1,6 +1,6 @@
 {
   "name": "@tssuite/gg_dna-js",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "The gg_dna DNA engine compiled to WebAssembly — instantiates and verifies a project's DNA from TypeScript test runs.",
   "keywords": [
     "dna",
@@ -50,18 +50,18 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
-    "@types/node": "^25.9.2",
-    "@vitest/coverage-v8": "^4.1.8",
-    "eslint": "^10.4.1",
-    "eslint-plugin-jsdoc": "^63.0.2",
+    "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^10.8.1",
+    "eslint-plugin-jsdoc": "^64.0.1",
     "eslint-plugin-tsdoc": "^0.5.2",
-    "globals": "^17.6.0",
+    "globals": "^17.9.0",
     "jsdoc": "^4.0.5",
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.6",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.61.0",
-    "vite": "^8.0.16",
-    "vitest": "^4.1.8"
+    "typescript-eslint": "^8.66.0",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
   },
   "repository": {
     "type": "git",
