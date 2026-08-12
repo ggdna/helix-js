@@ -10,19 +10,19 @@
 /// attach a single object — `dartBridge` — to the globalThis scope. The
 /// TypeScript wrapper picks it up from there.
 ///
-/// The gg_dna engine core is host-agnostic: every file-system and git
+/// The helix engine core is host-agnostic: every file-system and git
 /// access goes through the [DnaHost] seam. Here the seam is implemented by
 /// [CallbackDnaHost], which forwards each call to a plain JS object whose
 /// methods the TypeScript side implements with `node:fs` / `git`.
 ///
 /// IMPORTANT: only the io-free engine core is imported
-/// (`src/engine/instantiate.dart`, `src/util/dna_fs.dart`) — the gg_dna
-/// barrel `lib/gg_dna.dart` exports `dart:io`/`dart:isolate` code
+/// (`src/engine/instantiate.dart`, `src/util/dna_fs.dart`) — the helix
+/// barrel `lib/helix.dart` exports `dart:io`/`dart:isolate` code
 /// (IoDnaHost, runDnaTest) that does not compile to wasm.
 
 // coverage:ignore-file
 
-// The src imports below are deliberate: the gg_dna barrel is not
+// The src imports below are deliberate: the helix barrel is not
 // wasm-compatible, only the io-free engine core is.
 // ignore_for_file: implementation_imports
 
@@ -33,8 +33,8 @@ import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 import 'dart:typed_data';
 
-import 'package:gg_dna/src/engine/instantiate.dart';
-import 'package:gg_dna/src/util/dna_fs.dart';
+import 'package:helix/src/engine/instantiate.dart';
+import 'package:helix/src/util/dna_fs.dart';
 
 // .............................................................................
 // JS-side object shapes.
@@ -178,7 +178,7 @@ class CallbackDnaHost implements DnaHost {
 // .............................................................................
 // Public API exposed to JS
 
-/// JS-facing wrapper around the gg_dna engine. Marked with [JSExport] so
+/// JS-facing wrapper around the helix engine. Marked with [JSExport] so
 /// `createJSInteropWrapper` produces a JS object whose own methods delegate
 /// to the Dart instance methods below.
 @JSExport()
@@ -190,9 +190,9 @@ class DartBridge {
   /// callback [host] and returns `{ messages, warnings,
   /// modifiedInstances, updated, uncommittedTargets, sources }`.
   ///
-  /// [baseDnaRoot] points at the bundled copy of gg_dna's own package root
+  /// [baseDnaRoot] points at the bundled copy of helix's own package root
   /// (its `dna/` subfolder is the implicit base layer); pass `null` to run
-  /// without a base layer. [baseVersion] is the gg_dna version recorded in
+  /// without a base layer. [baseVersion] is the helix version recorded in
   /// the manifest.
   ///
   /// A failed run returns `{ error: string }` instead — see [_guard].

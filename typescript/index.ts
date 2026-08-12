@@ -21,7 +21,7 @@ export { runDnaTest, type RunDnaTestOptions } from './runDnaTest.js';
 // -----------------------------------------------------------------------------
 
 /**
- * The callback host injected into the wasm-compiled gg_dna engine: every
+ * The callback host injected into the wasm-compiled helix engine: every
  * file-system and git access of the engine goes through these functions.
  *
  * All paths are posix-separated strings (`/`), absolute or relative to the
@@ -63,7 +63,7 @@ export interface DnaHostCallbacks {
   commitPaths(repoRoot: string, paths: string[], message: string): void;
 }
 
-/** Outcome of one DNA instantiation run (mirrors gg_dna's result type). */
+/** Outcome of one DNA instantiation run (mirrors helix's result type). */
 export interface DnaInstantiationResult {
   /** Progress and adoption log lines. */
   messages: string[];
@@ -117,9 +117,9 @@ export function isDnaBridgeError(
 export interface DartBridge {
   /**
    * Runs one DNA instantiation over `targetRoot` with host access injected
-   * via `host`. `baseDnaRoot` points at the bundled gg_dna package root
+   * via `host`. `baseDnaRoot` points at the bundled helix package root
    * (its `dna/` subfolder is the implicit base layer); `baseVersion` is
-   * the gg_dna version recorded in the manifest.
+   * the helix version recorded in the manifest.
    *
    * Returns a {@link DnaBridgeError} when the run failed.
    */

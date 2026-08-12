@@ -21,7 +21,7 @@
 // Node). This file complements it by unit-testing the bridge classes
 // directly, without going through the build step: the JS host object is
 // emulated with Dart closures around a MemoryDnaHost.
-// The src import of gg_dna is deliberate: the barrel is not wasm-safe.
+// The src import of helix is deliberate: the barrel is not wasm-safe.
 // ignore_for_file: implementation_imports
 @TestOn('browser')
 library;
@@ -30,8 +30,8 @@ import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 import 'dart:typed_data';
 
-import 'package:gg_dna/src/util/dna_fs.dart';
-import 'package:gg_dna_js_bridge/src/main.dart';
+import 'package:helix/src/util/dna_fs.dart';
+import 'package:helix_js/src/main.dart';
 import 'package:test/test.dart';
 
 /// Wraps [mem] into a JS object with the callback-host shape.

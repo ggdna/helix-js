@@ -100,7 +100,7 @@ Future<void> _wrapWasmIntoTypescript() async {
 }
 
 // .............................................................................
-// Bundle gg_dna's own `dna/` folder — the implicit base layer of every
+// Bundle helix's own `dna/` folder — the implicit base layer of every
 // instantiation — plus its version, next to the compiled wasm:
 //
 //   typescript/generated/base-dna/dna/**            (the base layer)
@@ -109,22 +109,25 @@ Future<void> _wrapWasmIntoTypescript() async {
 // `pnpm run build:ts` copies the folder to `dist/base-dna` so the published
 // package ships it. The runtime resolves it relative to the module URL.
 Future<void> _syncBaseDna() async {
-  final ggDnaRoot = _resolveGgDnaRoot();
-  final sourceDna = Directory('$ggDnaRoot/dna');
+  final helixRoot = _resolveHelixRoot();
+  final sourceDna = Directory('$helixRoot/dna');
   if (!sourceDna.existsSync()) {
-    stderr.writeln(red('gg_dna package has no dna/ folder: $ggDnaRoot'));
+    stderr.writeln(red('helix package has no dna/ folder: $helixRoot'));
     exit(2);
   }
 
   // The agent skills are the part of the base DNA most easily lost: a
-  // gg_dna published before the `dot-` escape existed shipped them as
-  // `dna/.claude/`, and `dart pub publish` drops every path with a
-  // leading dot — so the bundle would silently carry a base DNA without
-  // any skills. Fail loudly instead of publishing that.
-  if (!Directory('$ggDnaRoot/dna/dot-claude').existsSync()) {
+  // helix that keeps them at `dna/.claude/` instead of the escaped
+  // `dna/dot-claude/` loses them on `dart pub publish`, which drops every
+  // path with a leading dot — so the bundle would silently carry a base
+  // DNA without any skills. Fail loudly on that unpublishable layout.
+  // A helix whose `dna/` carries no skills folder at all is fine: since
+  // the rename the engine ships only the DNA config there.
+  if (Directory('$helixRoot/dna/.claude').existsSync()) {
     stderr.writeln(red(
-      'gg_dna at $ggDnaRoot ships no dna/dot-claude — its agent skills '
-      'would be missing from the bundle. Use gg_dna 5.0 or newer.',
+      'helix at $helixRoot keeps its agent skills at dna/.claude — the '
+      'leading dot is dropped on publish, so they would be missing from '
+      'the bundle. It must use the escaped dna/dot-claude layout.',
     ));
     exit(2);
   }
@@ -135,10 +138,10 @@ Future<void> _syncBaseDna() async {
   }
   target.createSync(recursive: true);
 
-  print(darkGray('Copying $ggDnaRoot/dna → $baseDnaFolder/dna'));
+  print(darkGray('Copying $helixRoot/dna → $baseDnaFolder/dna'));
   _copyTree(sourceDna, Directory('$baseDnaFolder/dna'));
 
-  final version = _ggDnaVersion(ggDnaRoot);
+  final version = _helixVersion(helixRoot);
   final versionFile = File('$baseDnaFolder/base-version.json');
   versionFile.writeAsStringSync(
     '${const JsonEncoder.withIndent('  ').convert({'version': version})}\n',
@@ -146,9 +149,9 @@ Future<void> _syncBaseDna() async {
   print(darkGray('Base DNA version: $version'));
 }
 
-// Resolves the root folder of the gg_dna dependency from
+// Resolves the root folder of the helix dependency from
 // .dart_tool/package_config.json — works for path and hosted dependencies.
-String _resolveGgDnaRoot() {
+String _resolveHelixRoot() {
   final configFile = File('.dart_tool/package_config.json');
   if (!configFile.existsSync()) {
     stderr.writeln(red('Missing .dart_tool/package_config.json — '
@@ -159,7 +162,7 @@ String _resolveGgDnaRoot() {
       jsonDecode(configFile.readAsStringSync()) as Map<String, dynamic>;
   for (final pkg in (doc['packages'] as List?) ?? const <Object?>[]) {
     if (pkg is! Map<String, dynamic>) continue;
-    if (pkg['name'] != 'gg_dna') continue;
+    if (pkg['name'] != 'helix') continue;
     final rootUri = Uri.parse(pkg['rootUri'] as String);
     final resolved = configFile.absolute.uri.resolveUri(rootUri);
     final path = resolved.toFilePath();
@@ -167,16 +170,16 @@ String _resolveGgDnaRoot() {
         ? path.substring(0, path.length - 1)
         : path;
   }
-  stderr.writeln(red('gg_dna not found in package_config.json.'));
+  stderr.writeln(red('helix not found in package_config.json.'));
   exit(2);
 }
 
-String _ggDnaVersion(String ggDnaRoot) {
-  final pubspec = File('$ggDnaRoot/pubspec.yaml').readAsStringSync();
+String _helixVersion(String helixRoot) {
+  final pubspec = File('$helixRoot/pubspec.yaml').readAsStringSync();
   final match =
       RegExp(r'^version:\s*(\S+)', multiLine: true).firstMatch(pubspec);
   if (match == null) {
-    stderr.writeln(red('No version: line in $ggDnaRoot/pubspec.yaml.'));
+    stderr.writeln(red('No version: line in $helixRoot/pubspec.yaml.'));
     exit(2);
   }
   return match.group(1)!;
