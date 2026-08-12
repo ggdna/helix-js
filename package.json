@@ -1,10 +1,10 @@
 {
-  "name": "@tssuite/gg_dna-js",
-  "version": "1.1.0",
-  "description": "The gg_dna DNA engine compiled to WebAssembly — instantiates and verifies a project's DNA from TypeScript test runs.",
+  "name": "@tssuite/helix-js",
+  "version": "0.0.0",
+  "description": "WASM version of helix, the DNA engine.",
   "keywords": [
     "dna",
-    "gg_dna",
+    "helix",
     "dart",
     "wasm",
     "webassembly",
@@ -65,11 +65,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tssuite/gg_dna-js-bridge.git"
+    "url": "git+https://github.com/tssuite/helix-js.git"
   },
-  "homepage": "https://github.com/tssuite/gg_dna-js-bridge#readme",
+  "homepage": "https://github.com/tssuite/helix-js#readme",
   "bugs": {
-    "url": "https://github.com/tssuite/gg_dna-js-bridge/issues"
+    "url": "https://github.com/tssuite/helix-js/issues"
   },
   "publishConfig": {
     "access": "public"

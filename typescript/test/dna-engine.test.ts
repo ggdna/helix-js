@@ -6,7 +6,7 @@
 
 // End-to-end smoke test of the wasm-compiled DNA engine: build a tiny
 // project fixture on disk (a git repo with one fake DNA dev-dependency),
-// run `runDnaTest` against it and verify gg_dna's golden-update semantics:
+// run `runDnaTest` against it and verify helix's golden-update semantics:
 // the first run writes the instances and fails once ("review & commit"),
 // after committing the second run passes.
 
@@ -43,7 +43,7 @@ function git(cwd: string, ...args: string[]): void {
 }
 
 function makeFixture(): string {
-  const root = mkdtempSync(join(tmpdir(), 'gg-dna-bridge-fixture-'));
+  const root = mkdtempSync(join(tmpdir(), 'helix-bridge-fixture-'));
   tmpDirs.push(root);
 
   // A minimal project consuming one fake DNA package via devDependencies.

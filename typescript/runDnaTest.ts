@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-// Node-side entry point for the placed DNA test. Mirrors gg_dna's
+// Node-side entry point for the placed DNA test. Mirrors helix's
 // `run_dna_test.dart` exactly: one instantiation over the target project,
 // then the same outcome semantics — hand-modified instances fail, pending
 // updates are written and fail once ("review & commit"), a dirty working
@@ -16,17 +16,17 @@
 import type { DnaHostCallbacks, DnaInstantiationResult } from './index.js';
 import { init, isDnaBridgeError } from './index.js';
 
-/** Headline for hand-edited generated files (verbatim from gg_dna). */
+/** Headline for hand-edited generated files (verbatim from helix). */
 export const modifiedInstancesMessage = 'Generated files modified by hand:';
 
-/** Headline of the per-file guard failure (verbatim from gg_dna). */
+/** Headline of the per-file guard failure (verbatim from helix). */
 export const uncommittedTargetsMessage =
   'Generated files carry invalid changes:';
 
 /** Headline when the generated files could not be committed. */
 export const needsCommitMessage = 'Generated files need a commit:';
 
-/** Commit message of the automatic commit (verbatim from gg_dna). */
+/** Commit message of the automatic commit (verbatim from helix). */
 export const generatedDnaCommitMessage = '#gg: generated DNA';
 
 // Colors of the DNA report — the problem in cError, files in cCmd, what
@@ -71,7 +71,7 @@ export interface RunDnaTestOptions {
  * Entry point for the placed DNA test:
  *
  * ```ts
- * import { runDnaTest } from '@tssuite/gg_dna-js';
+ * import { runDnaTest } from '@tssuite/helix-js';
  * test('dna is instantiated and unmodified', async () => {
  *   await runDnaTest();
  * }, 120000);
@@ -177,7 +177,7 @@ type PathModule = typeof import('node:path');
 type ExecSync = typeof import('node:child_process').execSync;
 type FileUrlToPath = typeof import('node:url').fileURLToPath;
 
-// The build bundles gg_dna's own package root (its `dna/` folder is the
+// The build bundles helix's own package root (its `dna/` folder is the
 // implicit base layer plus a `base-version.json`) next to the emitted JS:
 //
 //   dist/base-dna/…                  (published package; entry files)
@@ -192,7 +192,7 @@ function resolveBaseDnaRoot(fs: FsModule, fileURLToPath: FileUrlToPath): string 
     if (fs.existsSync(`${root}/dna`)) return root;
   }
   throw new Error(
-    'Bundled base DNA not found next to @tssuite/gg_dna-js — ' +
+    'Bundled base DNA not found next to @tssuite/helix-js — ' +
       'run `pnpm run build` (dart run build.dart + build:ts) first.',
   );
 }
