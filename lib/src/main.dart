@@ -45,11 +45,13 @@ import 'package:helix/src/util/dna_fs.dart';
 /// {
 ///   existsFile(path: string): boolean
 ///   existsDir(path: string): boolean
+///   realPath(path: string): string
 ///   readBytes(path: string): Uint8Array          // throws on missing
 ///   writeBytes(path: string, bytes: Uint8Array): void
 ///   deleteFile(path: string): void
 ///   deleteDir(path: string): void
 ///   createDir(path: string): void
+///   createTempDir(prefix: string): string
 ///   rename(from: string, to: string): void
 ///   listFilesRecursive(dir: string): string[]    // relative posix, files
 ///   uncommittedPaths(repoRoot: string): string[] // relative posix
@@ -62,6 +64,10 @@ extension type JsDnaHost._(JSObject _) implements JSObject {
 
   /// Whether a directory exists at `path`.
   external bool existsDir(String path);
+
+  /// `path` with every symlink resolved; `path` itself when it cannot be
+  /// resolved.
+  external String realPath(String path);
 
   /// Reads the file at `path` as bytes; throws on missing files.
   external JSUint8Array readBytes(String path);
@@ -77,6 +83,10 @@ extension type JsDnaHost._(JSObject _) implements JSObject {
 
   /// Creates the directory at `path` recursively.
   external void createDir(String path);
+
+  /// Creates a fresh directory below the system temp folder, its name
+  /// starting with `prefix`, and returns its absolute posix path.
+  external String createTempDir(String prefix);
 
   /// Renames/moves a file or directory from `from` to `to`.
   external void rename(String from, String to);
@@ -104,12 +114,14 @@ extension type _BridgeErrorJs._(JSObject _) implements JSObject {
 }
 
 /// JS view of a [DnaInstantiationResult]: `{ messages, warnings,
-/// modifiedInstances, updated, uncommittedTargets, sources }`.
+/// backedUp, backupDir, updated, uncommittedTargets, sources,
+/// committed }`.
 extension type _InstantiationResultJs._(JSObject _) implements JSObject {
   external _InstantiationResultJs({
     required JSArray<JSString> messages,
     required JSArray<JSString> warnings,
-    required JSArray<JSString> modifiedInstances,
+    required JSArray<JSString> backedUp,
+    String? backupDir,
     required JSArray<JSString> updated,
     required JSArray<JSString> uncommittedTargets,
     required JSObject sources,
@@ -137,6 +149,9 @@ class CallbackDnaHost implements DnaHost {
   bool existsDir(String path) => js.existsDir(path);
 
   @override
+  String realPath(String path) => js.realPath(path);
+
+  @override
   Uint8List readBytes(String path) => js.readBytes(path).toDart;
 
   @override
@@ -160,19 +175,28 @@ class CallbackDnaHost implements DnaHost {
   void createDir(String path) => js.createDir(path);
 
   @override
+  String createTempDir(String prefix) => js.createTempDir(prefix);
+
+  @override
   void rename(String from, String to) => js.rename(from, to);
 
   @override
   List<String> listFilesRecursive(String dir) =>
       js.listFilesRecursive(dir).toDart.map((e) => e.toDart).toList();
 
+  // The engine awaits these two because a wasm embedder can only start a
+  // process asynchronously. The JS callbacks answer synchronously, so the
+  // futures are already completed.
   @override
-  Set<String> uncommittedPaths(String repoRoot) =>
+  Future<Set<String>> uncommittedPaths(String repoRoot) async =>
       js.uncommittedPaths(repoRoot).toDart.map((e) => e.toDart).toSet();
 
   @override
-  void commitPaths(String repoRoot, List<String> paths, String message) =>
-      js.commitPaths(repoRoot, _toJsStrings(paths), message);
+  Future<void> commitPaths(
+    String repoRoot,
+    List<String> paths,
+    String message,
+  ) async => js.commitPaths(repoRoot, _toJsStrings(paths), message);
 }
 
 // .............................................................................
@@ -187,8 +211,8 @@ class DartBridge {
   DartBridge();
 
   /// Runs one DNA instantiation over `targetRoot` using the injected
-  /// callback [host] and returns `{ messages, warnings,
-  /// modifiedInstances, updated, uncommittedTargets, sources }`.
+  /// callback [host] and returns `{ messages, warnings, backedUp,
+  /// backupDir, updated, uncommittedTargets, sources, committed }`.
   ///
   /// [baseDnaRoot] points at the bundled copy of helix's own package root
   /// (its `dna/` subfolder is the implicit base layer); pass `null` to run
@@ -196,14 +220,17 @@ class DartBridge {
   /// the manifest.
   ///
   /// A failed run returns `{ error: string }` instead — see [_guard].
-  JSObject instantiate(
+  ///
+  /// The engine runs git through the embedder, which can only answer
+  /// asynchronously, so the result reaches JS as a promise.
+  JSPromise<JSObject> instantiate(
     JSObject host,
     String targetRoot,
     String? baseDnaRoot,
     String baseVersion,
   ) {
-    return _guard(() {
-      final result = instantiateDna(
+    return _guard(() async {
+      final result = await instantiateDna(
         host: CallbackDnaHost(host as JsDnaHost),
         targetRoot: targetRoot,
         baseDnaRoot: baseDnaRoot,
@@ -212,7 +239,8 @@ class DartBridge {
       return _InstantiationResultJs(
         messages: _toJsStrings(result.messages),
         warnings: _toJsStrings(result.warnings),
-        modifiedInstances: _toJsStrings(result.modifiedInstances),
+        backedUp: _toJsStrings(result.backedUp),
+        backupDir: result.backupDir,
         updated: _toJsStrings(result.updated),
         uncommittedTargets: _toJsStrings(result.uncommittedTargets),
         sources: _toJsRecord(result.sources),
@@ -245,12 +273,16 @@ JSArray<JSString> _toJsStrings(List<String> list) =>
 // nothing but "[object WebAssembly.Exception]". Returning the message keeps
 // it readable; the TypeScript side turns it back into a real `Error`.
 
-JSObject _guard(JSObject Function() body) {
-  try {
-    return body();
-  } catch (e, st) {
-    return _BridgeErrorJs(error: _describeError(e, st));
+JSPromise<JSObject> _guard(Future<JSObject> Function() body) {
+  Future<JSObject> run() async {
+    try {
+      return await body();
+    } catch (e, st) {
+      return _BridgeErrorJs(error: _describeError(e, st));
+    }
   }
+
+  return run().toJS;
 }
 
 /// Renders [e] for the JS caller. Engine failures carry their own message
