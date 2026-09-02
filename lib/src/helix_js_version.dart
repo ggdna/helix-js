@@ -9,4 +9,4 @@
 // coverage:ignore-file
 
 /// The version of the `helix_js` package.
-const String helixJsVersion = '0.1.0';
+const String helixJsVersion = '0.2.0';
