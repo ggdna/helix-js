@@ -6,35 +6,18 @@ on:
   pull_request:
     branches: [main]
 
-# The pubspec uses a workspace path dependency on ../../ggsuite/helix, so
-# CI recreates that layout: this repo at tssuite/helix-js and
-# ggsuite/helix next to it. Once helix ^5.0.0 is hosted on pub.dev the
-# extra checkout can be dropped together with the path dependency.
-
-defaults:
-  run:
-    working-directory: tssuite/helix-js
-
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: tssuite/helix-js
-
-      - name: Checkout helix (workspace path dependency)
-        uses: actions/checkout@v4
-        with:
-          repository: ggsuite/helix
-          path: ggsuite/helix
 
       - name: Cache Dart pub
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-dart-${{ hashFiles('tssuite/helix-js/pubspec.yaml') }}
+          key: ${{ runner.os }}-dart-${{ hashFiles('pubspec.yaml') }}
           restore-keys: |
             ${{ runner.os }}-dart-
 
@@ -57,7 +40,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.local/share/pnpm/store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('tssuite/helix-js/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
 

@@ -28,6 +28,7 @@ export default defineConfig({
         'node:url',
         'node:path',
         'node:child_process',
+        'node:os',
       ],
       output: {
         entryFileNames: '[name].js',

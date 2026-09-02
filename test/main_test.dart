@@ -66,31 +66,48 @@ JSObject jsHostAround(MemoryDnaHost mem) {
     ((JSString p) => mem.createDir(p.toDart)).toJS,
   );
   host.setProperty(
+    'createTempDir'.toJS,
+    ((JSString p) => mem.createTempDir(p.toDart).toJS).toJS,
+  );
+  host.setProperty(
+    'realPath'.toJS,
+    ((JSString p) => mem.realPath(p.toDart).toJS).toJS,
+  );
+  host.setProperty(
     'rename'.toJS,
     ((JSString from, JSString to) => mem.rename(from.toDart, to.toDart)).toJS,
   );
   host.setProperty(
     'listFilesRecursive'.toJS,
     ((JSString d) =>
-        mem.listFilesRecursive(d.toDart).map((e) => e.toJS).toList().toJS).toJS,
+            mem.listFilesRecursive(d.toDart).map((e) => e.toJS).toList().toJS)
+        .toJS,
   );
   host.setProperty(
     'uncommittedPaths'.toJS,
-    ((JSString r) =>
-        mem.uncommittedPaths(r.toDart).map((e) => e.toJS).toList().toJS).toJS,
+    ((JSString r) => mem.uncommitted.map((e) => e.toJS).toList().toJS).toJS,
+  );
+  host.setProperty(
+    'commitPaths'.toJS,
+    ((JSString r, JSArray<JSString> paths, JSString message) {
+      mem.commitPaths(
+        r.toDart,
+        paths.toDart.map((e) => e.toDart).toList(),
+        message.toDart,
+      );
+    }).toJS,
   );
   return host;
 }
 
 List<String> _strings(JSObject result, String key) =>
-    (result.getProperty(key.toJS) as JSArray<JSString>)
-        .toDart
+    (result.getProperty(key.toJS) as JSArray<JSString>).toDart
         .map((e) => e.toDart)
         .toList();
 
 void main() {
   group('CallbackDnaHost', () {
-    test('delegates every call to the JS host object', () {
+    test('delegates every call to the JS host object', () async {
       final mem = MemoryDnaHost(files: {'/a/b.txt': 'hello'});
       final host = CallbackDnaHost(jsHostAround(mem) as JsDnaHost);
 
@@ -115,67 +132,69 @@ void main() {
       host.deleteDir('/a');
       expect(mem.existsFile('/a/b.txt'), isFalse);
 
-      expect(host.uncommittedPaths('/'), isEmpty);
+      expect(await host.uncommittedPaths('/'), isEmpty);
       mem.uncommitted.add('LICENSE');
-      expect(host.uncommittedPaths('/'), {'LICENSE'});
+      expect(await host.uncommittedPaths('/'), {'LICENSE'});
+      await host.commitPaths('/', ['LICENSE'], 'msg');
+      expect(mem.commits.single.message, 'msg');
+      expect(host.createTempDir('helix_'), startsWith('/tmp/helix_'));
+      expect(host.realPath('/a'), '/a');
     });
   });
 
   group('DartBridge.instantiate', () {
-    test('runs the engine and reports updated files', () {
+    test('runs the engine and reports updated files', () async {
       final mem = MemoryDnaHost(
         files: {'/proj/package.json': '{"name": "proj", "version": "1.0.0"}'},
       );
       final bridge = DartBridge();
 
-      final result = bridge.instantiate(
-        jsHostAround(mem),
-        '/proj',
-        null,
-        '4.0.0',
-      );
+      final result = await bridge
+          .instantiate(jsHostAround(mem), '/proj', null, '4.0.0')
+          .toDart;
 
       expect(
         _strings(result, 'updated'),
         containsAll(<String>['dna/_vars.json', 'dna/_generated.json']),
       );
-      expect(_strings(result, 'modifiedInstances'), isEmpty);
+      expect(_strings(result, 'backedUp'), isEmpty);
       expect(_strings(result, 'uncommittedTargets'), isEmpty);
       expect(mem.existsFile('/proj/dna/_generated.json'), isTrue);
     });
 
-    test('reports uncommittedTargets for a dirty overwrite target', () {
+    test('reports uncommittedTargets for a dirty overwrite target', () async {
       final mem = MemoryDnaHost(
         files: {'/proj/package.json': '{"name": "proj", "version": "1.0.0"}'},
       );
       final bridge = DartBridge();
       // First run creates the manifest, then it becomes dirty.
-      bridge.instantiate(jsHostAround(mem), '/proj', null, '4.0.0');
+      await bridge
+          .instantiate(jsHostAround(mem), '/proj', null, '4.0.0')
+          .toDart;
       mem.writeString('/proj/dna/_generated.json', '{"version": 1}');
       mem.uncommitted.add('dna/_generated.json');
 
-      final result = bridge.instantiate(
-        jsHostAround(mem),
-        '/proj',
-        null,
-        '4.0.0',
-      );
+      final result = await bridge
+          .instantiate(jsHostAround(mem), '/proj', null, '4.0.0')
+          .toDart;
 
       expect(_strings(result, 'uncommittedTargets'), ['dna/_generated.json']);
       expect(_strings(result, 'updated'), isEmpty);
       expect(mem.readString('/proj/dna/_generated.json'), '{"version": 1}');
       // The manifest has no DNA source — the record stays empty for it.
       expect(
-        (result.getProperty('sources'.toJS) as JSObject)
-            .getProperty('dna/_generated.json'.toJS),
+        (result.getProperty('sources'.toJS) as JSObject).getProperty(
+          'dna/_generated.json'.toJS,
+        ),
         isNull,
       );
     });
 
-    test('sources name the DNA file behind a reported path', () {
+    test('sources name the DNA file behind a reported path', () async {
       final mem = MemoryDnaHost(
         files: {
-          '/proj/package.json': '{"name": "proj", "version": "1.0.0", '
+          '/proj/package.json':
+              '{"name": "proj", "version": "1.0.0", '
               '"dependencies": {"a-dna": "^1.0.0"}}',
           '/proj/dna/_dna.json': '{"version": 1, "layers": ["a-dna"]}',
           '/proj/node_modules/a-dna/package.json':
@@ -189,23 +208,22 @@ void main() {
       );
       final bridge = DartBridge();
 
-      final result = bridge.instantiate(
-        jsHostAround(mem),
-        '/proj',
-        null,
-        '4.0.0',
-      );
+      final result = await bridge
+          .instantiate(jsHostAround(mem), '/proj', null, '4.0.0')
+          .toDart;
 
       expect(_strings(result, 'uncommittedTargets'), ['doc/hello.md']);
       expect(
-        ((result.getProperty('sources'.toJS) as JSObject)
-                .getProperty('doc/hello.md'.toJS)! as JSString)
+        ((result.getProperty('sources'.toJS) as JSObject).getProperty(
+                  'doc/hello.md'.toJS,
+                )!
+                as JSString)
             .toDart,
         'a-dna/dna/doc/hello.md',
       );
     });
 
-    test('reports engine failures as a readable { error } value', () {
+    test('reports engine failures as a readable { error } value', () async {
       // `dna/_dna.json` names a DNA layer that is not installed — the
       // engine throws, and the bridge must hand the message to JS as a
       // value: a Dart throw would arrive as an opaque
@@ -213,18 +231,14 @@ void main() {
       final mem = MemoryDnaHost(
         files: {
           '/proj/package.json': '{"name": "proj", "version": "1.0.0"}',
-          '/proj/dna/_dna.json':
-              '{"version": 1, "layers": ["not-installed"]}',
+          '/proj/dna/_dna.json': '{"version": 1, "layers": ["not-installed"]}',
         },
       );
       final bridge = DartBridge();
 
-      final result = bridge.instantiate(
-        jsHostAround(mem),
-        '/proj',
-        null,
-        '4.0.0',
-      );
+      final result = await bridge
+          .instantiate(jsHostAround(mem), '/proj', null, '4.0.0')
+          .toDart;
 
       final error = result.getProperty('error'.toJS) as JSString?;
       expect(error, isNotNull);

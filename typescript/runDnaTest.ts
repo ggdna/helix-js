@@ -6,9 +6,9 @@
 
 // Node-side entry point for the placed DNA test. Mirrors helix's
 // `run_dna_test.dart` exactly: one instantiation over the target project,
-// then the same outcome semantics — hand-modified instances fail, pending
-// updates are written and fail once ("review & commit"), a dirty working
-// tree blocks writes, a missing LICENSE fails.
+// then the same outcome semantics — hand-modified instances are backed up
+// and overwritten, a dirty working tree blocks writes, a missing LICENSE
+// fails.
 //
 // The engine itself runs inside the wasm-compiled Dart module; this file
 // only supplies the host callbacks (node:fs, git) and the bundled base DNA.
@@ -16,15 +16,12 @@
 import type { DnaHostCallbacks, DnaInstantiationResult } from './index.js';
 import { init, isDnaBridgeError } from './index.js';
 
-/** Headline for hand-edited generated files (verbatim from helix). */
-export const modifiedInstancesMessage = 'Generated files modified by hand:';
+/** Headline of a backup report line (verbatim from helix). */
+export const backedUpMessage = 'Local changes of';
 
 /** Headline of the per-file guard failure (verbatim from helix). */
 export const uncommittedTargetsMessage =
   'Generated files carry invalid changes:';
-
-/** Headline when the generated files could not be committed. */
-export const needsCommitMessage = 'Generated files need a commit:';
 
 /** Commit message of the automatic commit (verbatim from helix). */
 export const generatedDnaCommitMessage = '#gg: generated DNA';
@@ -80,7 +77,8 @@ export interface RunDnaTestOptions {
  * Runs one instantiation over the target project and throws when the
  * project is not in a clean, up-to-date DNA state:
  *
- * - hand-modified instances → fails, files stay untouched
+ * - hand-modified instances → the local content is backed up to a
+ *   system-temp folder and the DNA content is written
  * - DNA updates → writes them and commits them as "#gg: generated DNA"
  * - generated files with uncommitted changes → fails without writing
  * - missing LICENSE → fails
@@ -92,18 +90,19 @@ export async function runDnaTest(
   const fs = await import('node:fs');
   const path = await import('node:path');
   const { execSync } = await import('node:child_process');
+  const os = await import('node:os');
   const { fileURLToPath } = await import('node:url');
 
   const targetRoot = (options.targetRoot ?? process.cwd()).replace(/\\/g, '/');
   const baseDnaRoot = resolveBaseDnaRoot(fs, fileURLToPath);
   const baseVersion = readBaseVersion(fs, baseDnaRoot);
-  const host = createNodeHost(fs, path, execSync);
+  const host = createNodeHost(fs, path, execSync, os);
 
   const bridge = await init();
 
   let result: DnaInstantiationResult;
   try {
-    const outcome = bridge.instantiate(
+    const outcome = await bridge.instantiate(
       host,
       targetRoot,
       baseDnaRoot,
@@ -124,24 +123,17 @@ export async function runDnaTest(
     console.log(message);
   }
 
-  if (result.modifiedInstances.length > 0) {
-    throw new Error(
-      `\n${cError(modifiedInstancesMessage)}\n` +
-        `${describeDnaSources(result.modifiedInstances, result.sources)}`,
+  for (const path of result.backedUp) {
+    console.log(
+      `${cAction(backedUpMessage)} ${cCmd(path)} ` +
+        `${cAction('were backed up to')} ` +
+        `${cCmd(`${result.backupDir}/${path}`)}`,
     );
   }
   if (result.uncommittedTargets.length > 0) {
     throw new Error(
       `\n${cError(uncommittedTargetsMessage)}\n` +
         `${describeDnaSources(result.uncommittedTargets, result.sources)}`,
-    );
-  }
-  if (result.updated.length > 0 && !result.committed) {
-    throw new Error(
-      `\n${cError(needsCommitMessage)}\n` +
-        result.updated
-          .map((p) => `${cAction('Commit')} ${cCmd(p)}.`)
-          .join('\n'),
     );
   }
   if (!host.existsFile(`${targetRoot}/LICENSE`)) {
@@ -175,6 +167,7 @@ function describeThrown(e: unknown): string {
 type FsModule = typeof import('node:fs');
 type PathModule = typeof import('node:path');
 type ExecSync = typeof import('node:child_process').execSync;
+type OsModule = typeof import('node:os');
 type FileUrlToPath = typeof import('node:url').fileURLToPath;
 
 // The build bundles helix's own package root (its `dna/` folder is the
@@ -222,6 +215,7 @@ function createNodeHost(
   fs: FsModule,
   path: PathModule,
   execSync: ExecSync,
+  os: OsModule,
 ): DnaHostCallbacks {
   const listFiles = (dir: string, base: string, out: string[]): void => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -238,6 +232,13 @@ function createNodeHost(
   return {
     existsFile: (p) => fs.existsSync(p) && fs.statSync(p).isFile(),
     existsDir: (p) => fs.existsSync(p) && fs.statSync(p).isDirectory(),
+    realPath: (p) => {
+      try {
+        return fs.realpathSync(p).replace(/\\/g, '/');
+      } catch {
+        return p; // Nothing to resolve — hand the path back.
+      }
+    },
     readBytes: (p) => {
       const buffer = fs.readFileSync(p); // throws on missing
       return new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
@@ -255,6 +256,10 @@ function createNodeHost(
     createDir: (p) => {
       fs.mkdirSync(p, { recursive: true });
     },
+    createTempDir: (prefix) =>
+      fs
+        .mkdtempSync(`${os.tmpdir().replace(/\\/g, '/')}/${prefix}`)
+        .replace(/\\/g, '/'),
     rename: (from, to) => {
       fs.renameSync(from, to);
     },

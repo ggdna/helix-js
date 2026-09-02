@@ -18,12 +18,15 @@ import 'package:test/test.dart';
 void main() {
   test('package.json version matches pubspec.yaml', () {
     final pubspec = File('pubspec.yaml').readAsStringSync();
-    final match =
-        RegExp(r'^version:\s*(\S+)', multiLine: true).firstMatch(pubspec);
+    final match = RegExp(
+      r'^version:\s*(\S+)',
+      multiLine: true,
+    ).firstMatch(pubspec);
     expect(match, isNotNull, reason: 'pubspec.yaml has no version: line');
 
-    final pkg = json.decode(File('package.json').readAsStringSync())
-        as Map<String, dynamic>;
+    final pkg =
+        json.decode(File('package.json').readAsStringSync())
+            as Map<String, dynamic>;
     expect(
       pkg['version'],
       match!.group(1),

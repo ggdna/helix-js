@@ -33,7 +33,10 @@ const wasmBuilt =
   existsSync(join(generated, 'bridge-wasm.wasm')) &&
   existsSync(join(generated, 'bridge-wasm.ts')) &&
   existsSync(join(generated, 'base-dna', 'dna'));
-const dartOnPath = spawnSync('dart', ['--version']).status === 0;
+// On Windows `dart` is a .bat — spawning it needs the shell.
+const dartOnPath =
+  spawnSync('dart', ['--version'], { shell: process.platform === 'win32' })
+    .status === 0;
 const runnable = wasmBuilt && dartOnPath;
 
 const tmpDirs: string[] = [];
@@ -113,7 +116,9 @@ describe('runDnaTest (wasm engine, node host)', () => {
       await expect(runDnaTest({ targetRoot: root })).resolves.toBeUndefined();
 
       expect(existsSync(join(root, 'doc', 'hello.md'))).toBe(true);
-      expect(existsSync(join(root, 'dna', 'doc', 'hello.md'))).toBe(true);
+      // dna/ stays hand-authored source; only the manifest is written.
+      expect(existsSync(join(root, 'dna', '_generated.json'))).toBe(true);
+      expect(existsSync(join(root, 'dna', 'doc', 'hello.md'))).toBe(false);
       expect(
         execFileSync('git', ['log', '-1', '--pretty=%s'], {
           cwd: root,

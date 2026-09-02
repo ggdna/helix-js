@@ -32,6 +32,13 @@ export interface DnaHostCallbacks {
   existsFile(path: string): boolean;
   /** Whether a directory exists at `path`. */
   existsDir(path: string): boolean;
+  /**
+   * `path` with every symlink on it resolved; `path` itself when it
+   * cannot be resolved. pnpm installs a package as a symlink into its
+   * store, and the package's own dependencies live next to that store
+   * folder — only the resolved path leads to them.
+   */
+  realPath(path: string): string;
   /** Reads the file at `path` as bytes; throws on missing files. */
   readBytes(path: string): Uint8Array;
   /** Writes `bytes` to `path`, creating parent directories. */
@@ -42,6 +49,12 @@ export interface DnaHostCallbacks {
   deleteDir(path: string): void;
   /** Creates the directory at `path` recursively. */
   createDir(path: string): void;
+  /**
+   * Creates a fresh directory below the system temp folder, its name
+   * starting with `prefix`, and returns its absolute posix path. It holds
+   * the backups of locally changed instances.
+   */
+  createTempDir(prefix: string): string;
   /** Renames/moves a file or directory from `from` to `to`. */
   rename(from: string, to: string): void;
   /**
@@ -69,8 +82,16 @@ export interface DnaInstantiationResult {
   messages: string[];
   /** Non-fatal findings of config parsing and merging. */
   warnings: string[];
-  /** Instances whose content was changed by hand — the run failed. */
-  modifiedInstances: string[];
+  /**
+   * Instances whose content was changed by hand — the run copied the
+   * local content to `backupDir` and wrote the DNA content over it.
+   */
+  backedUp: string[];
+  /**
+   * The system-temp folder holding the copies of `backedUp`, keeping
+   * their project-relative paths. `null` when nothing was backed up.
+   */
+  backupDir: string | null;
   /** Paths written by this run — non-empty means "review & commit". */
   updated: string[];
   /**
@@ -121,14 +142,16 @@ export interface DartBridge {
    * (its `dna/` subfolder is the implicit base layer); `baseVersion` is
    * the helix version recorded in the manifest.
    *
-   * Returns a {@link DnaBridgeError} when the run failed.
+   * Resolves to a {@link DnaBridgeError} when the run failed. The engine
+   * runs git through the host, which answers asynchronously, so the
+   * result arrives as a promise.
    */
   instantiate(
     host: DnaHostCallbacks,
     targetRoot: string,
     baseDnaRoot: string | null,
     baseVersion: string,
-  ): DnaInstantiationResult | DnaBridgeError;
+  ): Promise<DnaInstantiationResult | DnaBridgeError>;
 }
 
 /** Options for `init()`. */
