@@ -13,7 +13,7 @@
       "name": "dna-helix",
       "package": "@ggdna/dna-helix",
       "ecosystem": "node",
-      "resolvedVersion": "0.1.0",
+      "resolvedVersion": "0.2.0",
       "via": "dna-ggdna",
       "hash": "0x3ef515a6d58f3d14"
     },
@@ -101,7 +101,7 @@
       "name": "dna-ggdna",
       "package": "@ggdna/dna-ggdna",
       "ecosystem": "node",
-      "resolvedVersion": "0.1.1",
+      "resolvedVersion": "0.2.0",
       "via": null,
       "hash": "0xdd0d7bdada5e6089"
     },
