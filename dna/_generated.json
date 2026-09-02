@@ -19,80 +19,80 @@
     },
     {
       "name": "dna-readme",
-      "package": "dna_readme",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-readme",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0xb8eeee4e2937ca0d"
     },
     {
       "name": "dna-guides",
-      "package": "dna_guides",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-guides",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x3bd4be7c009270a6"
     },
     {
       "name": "dna-translate",
-      "package": "dna_translate",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-translate",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x1c92ce37a7ede19b"
     },
     {
       "name": "dna-index",
-      "package": "dna_index",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-index",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x1d92b0add37a1ac7"
     },
     {
       "name": "dna-blog",
-      "package": "dna_blog",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-blog",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x2aafe5211ebd4365"
     },
     {
       "name": "dna-install",
-      "package": "dna_install",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-install",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0xbe88eb4256745ee1"
     },
     {
       "name": "dna-vscode",
-      "package": "dna_vscode",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-vscode",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x388c565943d37cae"
     },
     {
       "name": "dna-clean-code",
-      "package": "dna_clean_code",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-clean-code",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0xacaa785dad36b047"
     },
     {
       "name": "dna-scripts",
-      "package": "dna_scripts",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-scripts",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-gg",
       "hash": "0x9ee08ef13ab4c8d3"
     },
     {
       "name": "dna-gg",
-      "package": "dna_gg",
-      "ecosystem": "pub",
+      "package": "@ggdna/dna-gg",
+      "ecosystem": "node",
       "resolvedVersion": "0.1.2",
       "via": "dna-ggdna",
       "hash": "0xd5744033dd70c6a3"
