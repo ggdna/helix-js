@@ -25,6 +25,9 @@ importers:
       '@ggdna/dna-ggdna':
         specifier: link:../dna_ggdna
         version: link:../dna_ggdna
+      '@tssuite/helix-js':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@types/node':
         specifier: ^26.4.0
         version: 26.4.0
@@ -271,6 +274,10 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@tssuite/helix-js@0.1.0':
+    resolution: {integrity: sha512-0mxCYBZL/EWWBDgoJHGfk9jSWh82spU1fPdoDHzkxKh2BAA6A6MLZDlDSSFc0bqsiggP5Z9gww3z2TqSYFFkpA==}
+    engines: {node: '>=22'}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -1310,6 +1317,8 @@ snapshots:
   '@sindresorhus/base62@1.0.0': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@tssuite/helix-js@0.1.0': {}
 
   '@types/chai@5.2.3':
     dependencies:
