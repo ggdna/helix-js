@@ -50,6 +50,7 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
+    "@ggdna/dna-ggdna": "^0.1.1",
     "@types/node": "^26.4.0",
     "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.9.1",

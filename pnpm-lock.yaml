@@ -4,10 +4,27 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@ggdna/dna-ggdna': link:../dna_ggdna
+  '@ggdna/dna-blog': link:../dna_blog
+  '@ggdna/dna-helix': link:../dna_helix
+  '@ggdna/dna-clean-code': link:../dna_clean_code
+  '@ggdna/dna-gg': link:../dna_gg
+  '@ggdna/dna-index': link:../dna_index
+  '@ggdna/dna-install': link:../dna_install
+  '@ggdna/dna-scripts': link:../dna_scripts
+  '@ggdna/dna-guides': link:../dna_guides
+  '@ggdna/dna-readme': link:../dna_readme
+  '@ggdna/dna-translate': link:../dna_translate
+  '@ggdna/dna-vscode': link:../dna_vscode
+
 importers:
 
   .:
     devDependencies:
+      '@ggdna/dna-ggdna':
+        specifier: link:../dna_ggdna
+        version: link:../dna_ggdna
       '@types/node':
         specifier: ^26.4.0
         version: 26.4.0

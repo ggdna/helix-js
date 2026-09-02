@@ -4,5 +4,29 @@
 # change-refs-to-git-feature-branch and change-refs-to-pub-dev
 # remove it again.
 dependency_overrides:
+  dna_blog:
+    path: ../dna_blog
+  dna_clean_code:
+    path: ../dna_clean_code
+  dna_gg:
+    path: ../dna_gg
+  dna_ggdna:
+    path: ../dna_ggdna
+  dna_guides:
+    path: ../dna_guides
+  dna_helix:
+    path: ../dna_helix
+  dna_index:
+    path: ../dna_index
+  dna_install:
+    path: ../dna_install
+  dna_readme:
+    path: ../dna_readme
+  dna_scripts:
+    path: ../dna_scripts
+  dna_translate:
+    path: ../dna_translate
+  dna_vscode:
+    path: ../dna_vscode
   helix:
     path: ../helix

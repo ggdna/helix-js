@@ -89,6 +89,90 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  dna_blog:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_blog"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_clean_code:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_clean_code"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_gg:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_gg"
+      relative: true
+    source: path
+    version: "0.1.2"
+  dna_ggdna:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_ggdna"
+      relative: true
+    source: path
+    version: "0.1.1"
+  dna_guides:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_guides"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_helix:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_helix"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_index:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_index"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_install:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_install"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_readme:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_readme"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_scripts:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_scripts"
+      relative: true
+    source: path
+    version: "0.2.0"
+  dna_translate:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_translate"
+      relative: true
+    source: path
+    version: "0.1.0"
+  dna_vscode:
+    dependency: "direct overridden"
+    description:
+      path: "../dna_vscode"
+      relative: true
+    source: path
+    version: "0.1.0"
   file:
     dependency: transitive
     description:
