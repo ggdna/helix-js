@@ -15,84 +15,84 @@
       "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
-      "hash": "0xf0af6b5ef166ef2c"
+      "hash": "0x3ef515a6d58f3d14"
     },
     {
       "name": "dna-readme",
-      "package": "@ggdna/dna-readme",
-      "ecosystem": "node",
+      "package": "dna_readme",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0xb8eeee4e2937ca0d"
     },
     {
       "name": "dna-guides",
-      "package": "@ggdna/dna-guides",
-      "ecosystem": "node",
+      "package": "dna_guides",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x3bd4be7c009270a6"
     },
     {
       "name": "dna-translate",
-      "package": "@ggdna/dna-translate",
-      "ecosystem": "node",
+      "package": "dna_translate",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x1c92ce37a7ede19b"
     },
     {
       "name": "dna-index",
-      "package": "@ggdna/dna-index",
-      "ecosystem": "node",
+      "package": "dna_index",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x1d92b0add37a1ac7"
     },
     {
       "name": "dna-blog",
-      "package": "@ggdna/dna-blog",
-      "ecosystem": "node",
+      "package": "dna_blog",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x2aafe5211ebd4365"
     },
     {
       "name": "dna-install",
-      "package": "@ggdna/dna-install",
-      "ecosystem": "node",
+      "package": "dna_install",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0xbe88eb4256745ee1"
     },
     {
       "name": "dna-vscode",
-      "package": "@ggdna/dna-vscode",
-      "ecosystem": "node",
+      "package": "dna_vscode",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0x388c565943d37cae"
     },
     {
       "name": "dna-clean-code",
-      "package": "@ggdna/dna-clean-code",
-      "ecosystem": "node",
+      "package": "dna_clean_code",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.0",
       "via": "dna-ggdna",
       "hash": "0xacaa785dad36b047"
     },
     {
       "name": "dna-scripts",
-      "package": "@ggdna/dna-scripts",
-      "ecosystem": "node",
-      "resolvedVersion": "0.2.0",
+      "package": "dna_scripts",
+      "ecosystem": "pub",
+      "resolvedVersion": "0.1.0",
       "via": "dna-gg",
-      "hash": "0x97a76de8c8e53fb0"
+      "hash": "0x9ee08ef13ab4c8d3"
     },
     {
       "name": "dna-gg",
-      "package": "@ggdna/dna-gg",
-      "ecosystem": "node",
+      "package": "dna_gg",
+      "ecosystem": "pub",
       "resolvedVersion": "0.1.2",
       "via": "dna-ggdna",
       "hash": "0xd5744033dd70c6a3"
@@ -230,7 +230,7 @@
     },
     {
       "path": "doc/guides/dna-guide.md",
-      "hash": "0x71f9ee11d1ea369d"
+      "hash": "0x364ae798d1eb3add"
     },
     {
       "path": "doc/guides/dna-guides-guide.md",
@@ -378,7 +378,7 @@
     },
     {
       "path": "scripts/functions/get-repo-urls.js",
-      "hash": "0xd101f8b49454b888"
+      "hash": "0x4c7b3897973acec3"
     },
     {
       "path": "scripts/functions/get-version.js",
