@@ -50,18 +50,18 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
-    "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^10.8.1",
-    "eslint-plugin-jsdoc": "^64.1.0",
+    "@types/node": "^26.4.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^10.9.1",
+    "eslint-plugin-jsdoc": "^64.3.3",
     "eslint-plugin-tsdoc": "^0.5.2",
-    "globals": "^17.9.0",
+    "globals": "^17.11.0",
     "jsdoc": "^4.0.5",
     "prettier": "^3.9.6",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0",
-    "vite": "^8.2.1",
-    "vitest": "^4.1.10"
+    "typescript-eslint": "^8.69.0",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
   "repository": {
     "type": "git",
