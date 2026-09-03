@@ -1,6 +1,6 @@
 {
   "name": "@tssuite/helix-js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "WASM version of helix, the DNA engine.",
   "keywords": [
     "dna",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@ggdna/dna-ggdna": "^0.2.0",
-    "@tssuite/helix-js": "^0.1.0",
+    "@tssuite/helix-js": "^0.2.0",
     "@types/node": "^26.4.1",
     "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.9.1",
@@ -67,11 +67,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tssuite/helix-js.git"
+    "url": "git+https://github.com/ggdna/helix-js.git"
   },
-  "homepage": "https://github.com/tssuite/helix-js#readme",
+  "homepage": "https://github.com/ggdna/helix-js#readme",
   "bugs": {
-    "url": "https://github.com/tssuite/helix-js/issues"
+    "url": "https://github.com/ggdna/helix-js/issues"
   },
   "publishConfig": {
     "access": "public"
