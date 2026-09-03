@@ -67,11 +67,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tssuite/helix-js.git"
+    "url": "git+https://github.com/ggdna/helix-js.git"
   },
-  "homepage": "https://github.com/tssuite/helix-js#readme",
+  "homepage": "https://github.com/ggdna/helix-js#readme",
   "bugs": {
-    "url": "https://github.com/tssuite/helix-js/issues"
+    "url": "https://github.com/ggdna/helix-js/issues"
   },
   "publishConfig": {
     "access": "public"

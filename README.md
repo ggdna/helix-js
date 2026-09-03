@@ -1,6 +1,6 @@
 # @tssuite/helix-js
 
-The [helix](https://github.com/ggsuite/helix) DNA engine compiled to
+The [helix](https://github.com/ggdna/helix) DNA engine compiled to
 WebAssembly — instantiates and verifies a project's DNA from TypeScript
 test runs.
 

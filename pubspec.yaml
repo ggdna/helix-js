@@ -3,7 +3,7 @@ description: >
   The helix DNA engine compiled to WebAssembly — instantiates and
   verifies a project's DNA from TypeScript test runs.
 version: 0.2.0
-repository: https://github.com/tssuite/helix-js.git
+repository: https://github.com/ggdna/helix-js.git
 publish_to: none
 
 environment:
