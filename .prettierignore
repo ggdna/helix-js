@@ -18,6 +18,17 @@ CHANGELOG.md
 pubspec.yaml
 test/goldens/**
 
+# Files the DNA generates. They must match the generated originals
+# byte for byte — a formatter rewriting them would make every test run
+# back them up and overwrite them on every run. Only the generated parts
+# of doc/ are listed, so the hand-written docs are still formatted.
+dna/
+doc/guides/
+doc/templates/
+.vscode/
+.claude/
+scripts/
+
 # Lockfiles
 pnpm-lock.yaml
 pubspec.lock
