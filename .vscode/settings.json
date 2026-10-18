@@ -208,7 +208,7 @@
   // PSI Header
   // #############
 
-  "psi-header.variables": [["author", "ggsuite"]],
+  "psi-header.variables": [["author", "ggdna"]],
 
   "psi-header.templates": [
     {

@@ -53,7 +53,7 @@ git merge --abort
 
 ```bash
 cd ~/dev/ # workspace
-rm -rf tickets/GGS-145
+rm -rf tickets/GGD-145
 ```
 
 ## 4. Update the workspace
