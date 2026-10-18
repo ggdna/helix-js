@@ -14,3 +14,5 @@ minimumReleaseAgeExclude:
   - '@tssuite/*'
   - '@ggdna/*'
   - '@carat-ds/*'
+overrides:
+  "@ggdna\/dna-ggdna": link:../dna_ggdna
