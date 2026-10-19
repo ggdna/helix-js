@@ -1,6 +1,6 @@
 {
   "name": "@tssuite/helix-js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "WASM version of helix, the DNA engine.",
   "keywords": [
     "dna",
@@ -50,12 +50,12 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
-    "@ggdna/dna-ggdna": "^0.3.0",
-    "@tssuite/helix-js": "^0.3.0",
+    "@ggdna/dna-ggdna": "^0.5.0",
+    "@tssuite/helix-js": "^0.4.0",
     "@types/node": "^26.6.5",
-    "@vitest/coverage-v8": "^5.0.4",
-    "eslint": "^10.12.0",
-    "eslint-plugin-jsdoc": "^65.3.1",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.13.0",
+    "eslint-plugin-jsdoc": "^65.3.11",
     "eslint-plugin-tsdoc": "^0.5.4",
     "globals": "^17.13.0",
     "jsdoc": "^4.0.5",
@@ -63,7 +63,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.71.2",
     "vite": "^8.3.4",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.5"
   },
   "repository": {
     "type": "git",

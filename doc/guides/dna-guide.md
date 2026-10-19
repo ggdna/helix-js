@@ -79,7 +79,7 @@ override them:
 ```
 
 Because substitution is textual, a variable also works inside a JSON
-string or a code fence — `ggsuite` in a settings file is replaced the
+string or a code fence — `ggdna` in a settings file is replaced the
 same way it is in prose.
 
 ## Let consumers adapt it

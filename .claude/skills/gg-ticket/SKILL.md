@@ -14,7 +14,7 @@ Ask for these three, one after the other, and give the user a single input
 field per answer — one question per field, never all three in one question
 and never as a plain prose question:
 
-- Ticket ID, e.g. `GGS-145`
+- Ticket ID, e.g. `GGD-145`
 - Title, one imperative line, e.g. `Fix issue abc`
 - Description, one or two sentences on what the ticket changes
 
@@ -22,8 +22,8 @@ and never as a plain prose question:
 
 ```bash
 cd ~/dev/ # workspace
-gg do create ticket GGS-145 -m"Fix issue abc"
-cd tickets/GGS-145
+gg do create ticket GGD-145 -m"Fix issue abc"
+cd tickets/GGD-145
 ```
 
 ## 3. Choose the project management repo — or work without one
