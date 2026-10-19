@@ -95,15 +95,15 @@
       "ecosystem": "node",
       "resolvedVersion": "0.1.0",
       "via": "dna-gg",
-      "hash": "0xae24c13573219f91"
+      "hash": "0xf541b93b3dc7995d"
     },
     {
       "name": "dna-gg",
       "package": "@ggdna/dna-gg",
       "ecosystem": "node",
-      "resolvedVersion": "0.10.0",
+      "resolvedVersion": "0.11.0",
       "via": "dna-ggdna",
-      "hash": "0x2437308eb192d742"
+      "hash": "0x0c681b9f487d5439"
     },
     {
       "name": "dna-ggdna",
@@ -151,11 +151,15 @@
     },
     {
       "path": ".claude/skills/gg-publish/SKILL.md",
-      "hash": "0x61626e5e2425d9ab"
+      "hash": "0xcdef2684fcaaac5a"
     },
     {
       "path": ".claude/skills/gg-push/SKILL.md",
       "hash": "0x140e1b8d6cbe222e"
+    },
+    {
+      "path": ".claude/skills/gg-review/SKILL.md",
+      "hash": "0x09df48b6f6bf1de6"
     },
     {
       "path": ".claude/skills/gg-ticket/SKILL.md",
@@ -163,7 +167,7 @@
     },
     {
       "path": ".claude/skills/gg/SKILL.md",
-      "hash": "0x0e643054f49cf6a2"
+      "hash": "0x1eb3897cb31ec13b"
     },
     {
       "path": ".claude/skills/guide/SKILL.md",
@@ -243,7 +247,7 @@
     },
     {
       "path": "doc/guides/develop-guide.md",
-      "hash": "0x5ac3e76536b3848b"
+      "hash": "0xd34231caa0a6b6b6"
     },
     {
       "path": "doc/guides/develop-without-ai-guide.md",
@@ -263,7 +267,7 @@
     },
     {
       "path": "doc/guides/for-ai/ai-dev-guide.md",
-      "hash": "0x1dfc03fca83f6a07"
+      "hash": "0x8167358db28b6a1f"
     },
     {
       "path": "doc/guides/for-ai/ai-review-guide.md",
@@ -338,6 +342,10 @@
       "hash": "0x9d26fa802be8b39a"
     },
     {
+      "path": "doc/guides/setup-github-guide.md",
+      "hash": "0x836d4ca942a58b9c"
+    },
+    {
       "path": "doc/guides/test-guide-dart.md",
       "hash": "0x3b640cf745410ddf"
     },
@@ -380,10 +388,6 @@
     {
       "path": "doc/templates/readme-template.md",
       "hash": "0x507cc05b29fd6083"
-    },
-    {
-      "path": "guides/setup-github-guide.md",
-      "hash": "0x8681f11bbfaa0c00"
     },
     {
       "path": "scripts/delete-feature-branch.js",

@@ -35,7 +35,7 @@ Use the following skills in Claude
 ```bash
 /gg-commit
 /gg-push
-/review
+/gg-review
 /gg-publish
 /gg-cleanup
 ```
