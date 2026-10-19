@@ -173,6 +173,14 @@ gg do push
 
 ## Review
 
+Document the change in every repo first, so the documentation lands in
+the pull requests and is reviewed with the code:
+
+- Run `/blog` in every repo of the ticket that has
+  `doc/guides/blog-guide.md`, the project management repo included
+- Update the index.jsonc and README.md
+- Commit and push again
+
 Let the user confirm that the review phase is started.
 
 ```bash
@@ -186,9 +194,6 @@ Afterwards load the review-light skill and execute it.
 
 ## Publish
 
-- Run `/blog` in every repo of the ticket that has
-  `doc/guides/blog-guide.md`, the project management repo included
-- Update the index.jsonc and README.md
 - Check `mergeMessage` and `versionIncrement` in `.gg/publish_config.json`
   of each repo — `gg do publish` offers them as defaults
 - If the ticket was only planned, publish the project management repo only
