@@ -1,6 +1,6 @@
 {
   "name": "@tssuite/helix-js",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "WASM version of helix, the DNA engine.",
   "keywords": [
     "dna",
