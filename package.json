@@ -50,12 +50,12 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
-    "@ggdna/dna-ggdna": "^0.5.0",
-    "@tssuite/helix-js": "^0.4.0",
+    "@ggdna/dna-ggdna": "^0.5.1",
+    "@tssuite/helix-js": "^0.4.1",
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^10.13.0",
-    "eslint-plugin-jsdoc": "^65.3.11",
+    "eslint-plugin-jsdoc": "^65.3.12",
     "eslint-plugin-tsdoc": "^0.5.4",
     "globals": "^17.13.0",
     "jsdoc": "^4.0.5",

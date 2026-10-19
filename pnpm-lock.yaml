@@ -4,21 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@ggdna/dna-ggdna': link:../dna_ggdna
-  '@ggdna/dna-gg': link:../dna_gg
-  '@ggdna/dna-github': link:../dna_github
-
 importers:
 
   .:
     devDependencies:
       '@ggdna/dna-ggdna':
-        specifier: link:../dna_ggdna
-        version: link:../dna_ggdna
+        specifier: ^0.5.1
+        version: 0.5.1
       '@tssuite/helix-js':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.4.1
+        version: 0.4.1
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -29,8 +24,8 @@ importers:
         specifier: ^10.13.0
         version: 10.13.0(supports-color@7.2.0)
       eslint-plugin-jsdoc:
-        specifier: ^65.3.11
-        version: 65.3.11(eslint@10.13.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
+        specifier: ^65.3.12
+        version: 65.3.12(eslint@10.13.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint-plugin-tsdoc:
         specifier: ^0.5.4
         version: 0.5.4(eslint@10.13.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
@@ -122,6 +117,58 @@ packages:
   '@eslint/plugin-kit@0.7.3':
     resolution: {integrity: sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
+  '@ggdna/dna-blog@0.3.0':
+    resolution: {integrity: sha512-1LHLK0+3bOB6oCcDBEOsrcSN8tESeXw+o8d4nMBP8x7tVXENVe0IjsVykhXWs1jeQ8rgoIMDqgS7zyKW0VLlBQ==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-clean-code@0.2.1':
+    resolution: {integrity: sha512-EGTBhFi/Q37jLeNXhlaz39OAijQsOXQEo5QGX7TpgyJ7hrjx9+XlwwIsJYwrI0kDMKuRy5TAK1jmMVcf1WTR5Q==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-gg@0.11.1':
+    resolution: {integrity: sha512-LjjvPwlCLq6kTXhaeAcGvGOw+zF0pcYn/FXkg0jXJMiX89YVE36xvIvMT2n7TY2hjkLDH9oO9VObiZhPPPImhg==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-ggdna@0.5.1':
+    resolution: {integrity: sha512-SyGGUsOEoGL3VxCnKro7jlI6t1CkfVUTiT754rWYzaOIomUUlHGZxgMCtOBHoWVMeVVH5zv91GhNB5hmEEfe3Q==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-github@0.1.1':
+    resolution: {integrity: sha512-6K79BopuKYrZd0k017tVfJYK6+zeiz5bUkIxdcR9Bgv567AdWV42YzAHHFT/z2mPPl3sqCvNPAEXRLwUOCDbKQ==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-guides@0.2.0':
+    resolution: {integrity: sha512-abcWI3W+b8U/uxSV6f9XGOHpaUXKHdqIbWgSczLq61ueOl0xSRJUZD+BeF6dasyV3blJ0Ir84vju6ioe8VTpyg==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-helix@0.3.0':
+    resolution: {integrity: sha512-rb1VdChFUfU0A5Quckt5xMRD1AS6xh9OJ+05GHGTo2lzvxVuAisCXKqdZY38hht2/T8Bcov4eJ+hiWC7x11nDQ==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-index@0.2.0':
+    resolution: {integrity: sha512-azbA8fMhn01eSvEcjJc4aXrh8H0svc/lru2MJVAOaZ+sLnzm3bTrlQTxfcJ5sm/bidtMAh9+738AfAJcQdLP2A==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-install@0.2.0':
+    resolution: {integrity: sha512-EIeGLKCSV2aBfdafgJK0ZrwHe/4t6B74MdLyw4UtbhrBivSZ2DYZfxGXohMffyOAxa8AJ1eUopPdhwyzYBKNjA==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-readme@0.3.1':
+    resolution: {integrity: sha512-pChOh9A5peNDsjBhgGEqJR4et29LL7frLN6ou4PuKtGUd/oniqFCfVEVdaSeI4QGPZfNcf/re4W6fys/9WMbzA==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-scripts@0.3.0':
+    resolution: {integrity: sha512-HPqOlpbw/0TRgJxMY8ObY6RSS5FlrgKb2d9kd4morrA8M9gmDYFgfyWVLI1vK/0WWkqLcSOjD2M9Jq/1yETsrw==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-translate@0.3.0':
+    resolution: {integrity: sha512-Cc/CbCVItqRSeFz2sTtcH6E0TonT3qWpwqnvfouYKEePprzC5Gp5+rjinb9XzflcUTfXB9CjjXneLhGcueTMRw==}
+    engines: {node: '>=22'}
+
+  '@ggdna/dna-vscode@0.4.0':
+    resolution: {integrity: sha512-MTNnoDQzN4PiOf53QsKXkH85WhUexfC1Bq9NS67Nrf3UvH5By+D4SDaz3pbXVaUf1LUyDYYhwKcgoaU69PlM0A==}
+    engines: {node: '>=22'}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -278,8 +325,8 @@ packages:
     resolution: {integrity: sha512-TeheYy0ILzBEI/CO55CP6zJCSdSWeRtGnHy8U8dWSUH4I68iqTsy7HkMktR4xakThc9jotkPQUXT4ITdbV7cHA==}
     engines: {node: '>=18'}
 
-  '@tssuite/helix-js@0.4.0':
-    resolution: {integrity: sha512-mkb4xn4ARGQyhb8TJHQ7OM1fNTy2CuF3ajwxgNuTpK6WpqX+sBda1d3TLWjBbcmiUQpbTRRI7ZME6rWpAHDqTA==}
+  '@tssuite/helix-js@0.4.1':
+    resolution: {integrity: sha512-CyvmPSrLAoymb5rTzC77dCUvOhpjeLSHZT9I9Xx278k4jZl5ss4gZzKjdaYBgNv/a7/PAQzWwxDqhKEj3Bteaw==}
     engines: {node: '>=22'}
 
   '@types/chai@5.2.3':
@@ -535,8 +582,8 @@ packages:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
 
-  eslint-plugin-jsdoc@65.3.11:
-    resolution: {integrity: sha512-gBHU5ansRN+aQTVuLbpXaLlSKChRfBtfDDEeVHDdjSfbUAhVxMNAI/gESSnOCuUlpYlfPUIdIFWDVCNka95mRw==}
+  eslint-plugin-jsdoc@65.3.12:
+    resolution: {integrity: sha512-oYzEwsNq5h3AsUmiEwaxdl5YMaINBudwepsplSKFxNOWKqJsb6FfRqNh6KEsMkMa7hrynHxw01/Y9Q5h/GeJxQ==}
     engines: {node: ^22.22.2 || >=24.15.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -1226,6 +1273,48 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
+  '@ggdna/dna-blog@0.3.0': {}
+
+  '@ggdna/dna-clean-code@0.2.1': {}
+
+  '@ggdna/dna-gg@0.11.1':
+    dependencies:
+      '@ggdna/dna-github': 0.1.1
+      '@ggdna/dna-index': 0.2.0
+      '@ggdna/dna-install': 0.2.0
+
+  '@ggdna/dna-ggdna@0.5.1':
+    dependencies:
+      '@ggdna/dna-blog': 0.3.0
+      '@ggdna/dna-clean-code': 0.2.1
+      '@ggdna/dna-gg': 0.11.1
+      '@ggdna/dna-guides': 0.2.0
+      '@ggdna/dna-helix': 0.3.0
+      '@ggdna/dna-index': 0.2.0
+      '@ggdna/dna-install': 0.2.0
+      '@ggdna/dna-readme': 0.3.1
+      '@ggdna/dna-scripts': 0.3.0
+      '@ggdna/dna-translate': 0.3.0
+      '@ggdna/dna-vscode': 0.4.0
+
+  '@ggdna/dna-github@0.1.1': {}
+
+  '@ggdna/dna-guides@0.2.0': {}
+
+  '@ggdna/dna-helix@0.3.0': {}
+
+  '@ggdna/dna-index@0.2.0': {}
+
+  '@ggdna/dna-install@0.2.0': {}
+
+  '@ggdna/dna-readme@0.3.1': {}
+
+  '@ggdna/dna-scripts@0.3.0': {}
+
+  '@ggdna/dna-translate@0.3.0': {}
+
+  '@ggdna/dna-vscode@0.4.0': {}
+
   '@humanfs/core@0.19.2':
     dependencies:
       '@humanfs/types': 0.15.0
@@ -1323,7 +1412,7 @@ snapshots:
 
   '@sindresorhus/base62@1.0.0': {}
 
-  '@tssuite/helix-js@0.4.0': {}
+  '@tssuite/helix-js@0.4.1': {}
 
   '@types/chai@5.2.3':
     dependencies:
@@ -1606,7 +1695,7 @@ snapshots:
 
   escape-string-regexp@5.0.0: {}
 
-  eslint-plugin-jsdoc@65.3.11(eslint@10.13.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3):
+  eslint-plugin-jsdoc@65.3.12(eslint@10.13.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3):
     dependencies:
       '@es-joy/jsdoccomment': 0.98.0
       '@es-joy/resolve.exports': 1.2.0
