@@ -109,7 +109,7 @@
       "name": "dna-ggdna",
       "package": "@ggdna/dna-ggdna",
       "ecosystem": "node",
-      "resolvedVersion": "0.4.0",
+      "resolvedVersion": "0.5.0",
       "via": null,
       "hash": "0x40a58a0890dfbb7d"
     },
