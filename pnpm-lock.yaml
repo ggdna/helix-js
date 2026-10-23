@@ -12,7 +12,7 @@ importers:
   .:
     devDependencies:
       '@ggdna/dna-ggdna':
-        specifier: link:../dna_ggdna
+        specifier: link:..\dna_ggdna
         version: link:../dna_ggdna
       '@tssuite/helix-js':
         specifier: ^0.5.0
