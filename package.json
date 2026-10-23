@@ -50,7 +50,7 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
-    "@ggdna/dna-ggdna": "^0.5.0",
+    "@ggdna/dna-ggdna": "^1.0.0",
     "@tssuite/helix-js": "^0.5.0",
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^5.0.5",
