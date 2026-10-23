@@ -47,6 +47,7 @@ is instantiated to `x/y`:
 | `dna/doc/guides/x-guide.md` | `doc/guides/x-guide.md` |
 | `dna/dot-vscode/settings.json` | `.vscode/settings.json` |
 | `dna/dot-claude/skills/x/SKILL.md` | `.claude/skills/x/SKILL.md` |
+| `dna/CLAUDE.md` | the managed block of `CLAUDE.md` |
 | `dna/_vars.json` | — private, stays inside |
 
 A leading dot is escaped as `dot-`, because publishing to pub drops every
@@ -85,6 +86,9 @@ same way it is in prose.
 ## Let consumers adapt it
 
 - A same-path file in a later layer replaces yours whole
+- `dna/CLAUDE.md` is the exception: every layer adds its own to the
+  managed block of the project's `CLAUDE.md`, in layer order. Write only
+  what your topic tells the AI; never repeat another layer's text
 - `X.overrides.json` merges field-wise: objects deep-merge, `"key!"`
   replaces without merging, `"key+"` appends to an array, `"key": null`
   deletes
