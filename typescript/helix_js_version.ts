@@ -2,4 +2,4 @@
 // Kept in sync by typescript/test/helix_js_version.test.ts.
 
 /** The version of the `@tssuite/helix-js` package. */
-export const helixJsVersion = '0.5.0';
+export const helixJsVersion = '0.5.1';
