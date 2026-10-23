@@ -13,9 +13,9 @@
       "name": "dna-helix",
       "package": "@ggdna/dna-helix",
       "ecosystem": "node",
-      "resolvedVersion": "0.3.0",
+      "resolvedVersion": "0.3.1",
       "via": "dna-ggdna",
-      "hash": "0x3ef515a6d58f3d14"
+      "hash": "0x41fe994cf79ab8ef"
     },
     {
       "name": "dna-readme",
@@ -267,7 +267,7 @@
     },
     {
       "path": "doc/guides/dna-guide.md",
-      "hash": "0xae953aa6dcea3875"
+      "hash": "0xdcdf1f0f8579e34c"
     },
     {
       "path": "doc/guides/dna-guides-guide.md",
