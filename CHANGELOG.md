@@ -2,6 +2,7 @@
 
 ## 0.2.1 - 2026-09-03
 
+- Initial implementation coming from the former gg_dna-js
 ### Added
 
 - Copy implementation from gg_dna-js
