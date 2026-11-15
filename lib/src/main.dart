@@ -115,7 +115,7 @@ extension type _BridgeErrorJs._(JSObject _) implements JSObject {
 
 /// JS view of a [DnaInstantiationResult]: `{ messages, warnings,
 /// backedUp, backupDir, updated, uncommittedTargets, sources,
-/// committed }`.
+/// committed, modified, pending }`.
 extension type _InstantiationResultJs._(JSObject _) implements JSObject {
   external _InstantiationResultJs({
     required JSArray<JSString> messages,
@@ -126,6 +126,8 @@ extension type _InstantiationResultJs._(JSObject _) implements JSObject {
     required JSArray<JSString> uncommittedTargets,
     required JSObject sources,
     required bool committed,
+    required JSArray<JSString> modified,
+    required JSArray<JSString> pending,
   });
 }
 
@@ -212,12 +214,15 @@ class DartBridge {
 
   /// Runs one DNA instantiation over `targetRoot` using the injected
   /// callback [host] and returns `{ messages, warnings, backedUp,
-  /// backupDir, updated, uncommittedTargets, sources, committed }`.
+  /// backupDir, updated, uncommittedTargets, sources, committed, modified,
+  /// pending }`.
   ///
   /// [baseDnaRoot] points at the bundled copy of helix's own package root
   /// (its `dna/` subfolder is the implicit base layer); pass `null` to run
   /// without a base layer. [baseVersion] is the helix version recorded in
-  /// the manifest.
+  /// the manifest. [checkOnly] plans the run and writes nothing: the
+  /// result names the hand-changed generated files in `modified` and the
+  /// outstanding DNA updates in `pending`.
   ///
   /// A failed run returns `{ error: string }` instead — see [_guard].
   ///
@@ -227,14 +232,16 @@ class DartBridge {
     JSObject host,
     String targetRoot,
     String? baseDnaRoot,
-    String baseVersion,
-  ) {
+    String baseVersion, [
+    bool? checkOnly,
+  ]) {
     return _guard(() async {
       final result = await instantiateDna(
         host: CallbackDnaHost(host as JsDnaHost),
         targetRoot: targetRoot,
         baseDnaRoot: baseDnaRoot,
         baseVersion: baseVersion,
+        checkOnly: checkOnly ?? false,
       );
       return _InstantiationResultJs(
         messages: _toJsStrings(result.messages),
@@ -245,6 +252,8 @@ class DartBridge {
         uncommittedTargets: _toJsStrings(result.uncommittedTargets),
         sources: _toJsRecord(result.sources),
         committed: result.committed,
+        modified: _toJsStrings(result.modified),
+        pending: _toJsStrings(result.pending),
       );
     });
   }

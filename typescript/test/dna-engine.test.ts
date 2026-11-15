@@ -23,7 +23,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, test } from 'vitest';
-import { runDnaTest } from '../index.js';
+import { checkDna, modifiedDnaMessage, runDnaTest } from '../index.js';
 import './setup.js';
 
 // The spec needs the compiled wasm bundle and the bundled base DNA — both
@@ -202,6 +202,49 @@ describe('runDnaTest (wasm engine, node host)', () => {
       await expect(runDnaTest({ targetRoot: root })).rejects.toThrowError(
         /not-installed/,
       );
+    },
+    120000,
+  );
+});
+
+describe('checkDna (wasm engine, node host)', () => {
+  const status = (root: string): string =>
+    execFileSync('git', ['status', '--porcelain'], {
+      cwd: root,
+      encoding: 'utf8',
+    }).trim();
+
+  test.skipIf(!runnable)(
+    'passes on unchanged DNA files, fails on a changed one, writes nothing',
+    async () => {
+      const root = makeFixture();
+      await runDnaTest({ targetRoot: root });
+
+      await expect(checkDna({ targetRoot: root })).resolves.toBeUndefined();
+
+      writeFileSync(join(root, 'doc', 'hello.md'), '# Changed by hand\n');
+      await expect(checkDna({ targetRoot: root })).rejects.toThrowError(
+        new RegExp(
+          `${modifiedDnaMessage}[\\s\\S]*fake-dna/dna/doc/hello\\.md`,
+        ),
+      );
+      // The hand edit stays and nothing else was written or committed.
+      expect(readFileSync(join(root, 'doc', 'hello.md'), 'utf8')).toBe(
+        '# Changed by hand\n',
+      );
+      expect(status(root)).toBe('M doc/hello.md');
+    },
+    120000,
+  );
+
+  test.skipIf(!runnable)(
+    'reports outstanding DNA updates without writing them',
+    async () => {
+      const root = makeFixture();
+      await expect(checkDna({ targetRoot: root })).resolves.toBeUndefined();
+      expect(existsSync(join(root, 'doc', 'hello.md'))).toBe(false);
+      expect(existsSync(join(root, 'dna', '_generated.json'))).toBe(false);
+      expect(status(root)).toBe('');
     },
     120000,
   );

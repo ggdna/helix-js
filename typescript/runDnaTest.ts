@@ -143,6 +143,74 @@ export async function runDnaTest(
   }
 }
 
+/** Headline of a failed {@link checkDna} (verbatim from helix). */
+export const modifiedDnaMessage = 'Generated DNA files were changed by hand:';
+
+const cDetail = (s: string): string => `\x1B[90m${s}\x1B[0m`;
+
+/**
+ * Entry point for the placed DNA check:
+ *
+ * ```ts
+ * import { checkDna } from '@tssuite/helix-js';
+ * test('generated dna files are unchanged', async () => {
+ *   await checkDna();
+ * }, 120000);
+ * ```
+ *
+ * Proves that the files the DNA generated are unchanged, and changes
+ * nothing — it writes no file, makes no backup and commits nothing:
+ *
+ * - a generated file changed by hand → throws, naming the DNA file each
+ *   edit belongs in
+ * - outstanding DNA updates → reported with `gg dna build`, not a failure
+ * @param options - Target selection; see {@link RunDnaTestOptions}.
+ */
+export async function checkDna(options: RunDnaTestOptions = {}): Promise<void> {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const { execSync } = await import('node:child_process');
+  const os = await import('node:os');
+  const { fileURLToPath } = await import('node:url');
+
+  const targetRoot = (options.targetRoot ?? process.cwd()).replace(/\\/g, '/');
+  const baseDnaRoot = resolveBaseDnaRoot(fs, fileURLToPath);
+  const baseVersion = readBaseVersion(fs, baseDnaRoot);
+  const host = createNodeHost(fs, path, execSync, os);
+
+  const bridge = await init();
+  let result: DnaInstantiationResult;
+  try {
+    const outcome = await bridge.instantiate(
+      host,
+      targetRoot,
+      baseDnaRoot,
+      baseVersion,
+      true,
+    );
+    if (isDnaBridgeError(outcome)) throw new Error(outcome.error);
+    result = outcome;
+  } catch (e) {
+    throw e instanceof Error ? e : new Error(describeThrown(e));
+  }
+
+  if (result.pending.length > 0) {
+    console.log(
+      `${cDetail('The DNA has updates for')} ` +
+        `${result.pending.map(cCmd).join(', ')}${cDetail('.')} ` +
+        `${cAction('Apply them with')} ${cCmd('gg dna build')}.`,
+    );
+  }
+  if (result.modified.length > 0) {
+    throw new Error(
+      `\n${cError(modifiedDnaMessage)}\n` +
+        `${describeDnaSources(result.modified, result.sources)}\n` +
+        `${cAction('Then restore the generated files with')} ` +
+        `${cCmd('git checkout -- <file>')}.`,
+    );
+  }
+}
+
 /**
  * Describes a non-`Error` throw. `String(e)` alone degrades exotic values —
  * a `WebAssembly.Exception` for instance stringifies to
