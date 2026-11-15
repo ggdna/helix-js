@@ -6,26 +6,41 @@ test runs.
 
 DNA packages ship configs, docs, scripts and agent skills into consuming
 repos. In Dart projects the placed `test/dna/dna_test.dart` calls helix's
-`runDnaTest()` directly. This package brings the _same engine, byte for
-byte_ to TypeScript projects: the io-free engine core of helix 5.x is
+`checkDna()` directly. This package brings the _same engine, byte for
+byte_ to TypeScript projects: the io-free engine core of helix is
 compiled with `dart compile wasm`, and every file-system / git access is
 injected from JavaScript as a callback host.
 
-## Usage — the placed spec
+## Usage — the placed check
 
-TypeScript projects consuming DNA place a single Vitest spec:
+TypeScript projects consuming DNA place a single Vitest spec,
+`test/dna/dna.spec.ts`:
 
 ```ts
-import { runDnaTest } from '@tssuite/helix-js';
+import { checkDna } from '@tssuite/helix-js';
+import { test } from 'vitest';
 
-test('dna is instantiated and unmodified', async () => {
-  await runDnaTest();
+test('generated dna files are unchanged', async () => {
+  await checkDna();
 }, 120000);
 ```
 
-`runDnaTest()` runs one instantiation over the project (default:
-`process.cwd()`, override via `runDnaTest({ targetRoot })`) and applies
-helix's golden-update semantics:
+`checkDna()` plans one instantiation over the project (default:
+`process.cwd()`, override via `checkDna({ targetRoot })`) and writes,
+backs up and commits nothing:
+
+- **a generated file changed by hand** → fails and names the DNA file the
+  edit belongs in (`Generated DNA files were changed by hand: …`)
+- **outstanding DNA updates** → reported with `gg dna build`, passes
+- otherwise → passes silently
+
+The bundled engine needs Node 24 or newer: older versions cannot compile
+the exception references the Dart compiler emits.
+
+## Instantiating — runDnaTest
+
+`runDnaTest()` takes the same options and instantiates the DNA instead of
+checking it:
 
 - **hand-modified instances** → fails, files stay untouched
   (`DNA instances were modified by hand: …`)
