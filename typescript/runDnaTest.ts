@@ -87,34 +87,7 @@ export interface RunDnaTestOptions {
 export async function runDnaTest(
   options: RunDnaTestOptions = {},
 ): Promise<void> {
-  const fs = await import('node:fs');
-  const path = await import('node:path');
-  const { execSync } = await import('node:child_process');
-  const os = await import('node:os');
-  const { fileURLToPath } = await import('node:url');
-
-  const targetRoot = (options.targetRoot ?? process.cwd()).replace(/\\/g, '/');
-  const baseDnaRoot = resolveBaseDnaRoot(fs, fileURLToPath);
-  const baseVersion = readBaseVersion(fs, baseDnaRoot);
-  const host = createNodeHost(fs, path, execSync, os);
-
-  const bridge = await init();
-
-  let result: DnaInstantiationResult;
-  try {
-    const outcome = await bridge.instantiate(
-      host,
-      targetRoot,
-      baseDnaRoot,
-      baseVersion,
-    );
-    // The engine reports its own failures as `{ error }` — a Dart throw
-    // would reach us as an unreadable `WebAssembly.Exception`.
-    if (isDnaBridgeError(outcome)) throw new Error(outcome.error);
-    result = outcome;
-  } catch (e) {
-    throw e instanceof Error ? e : new Error(describeThrown(e));
-  }
+  const { result, host, targetRoot } = await runEngine(options, false);
 
   for (const warning of result.warnings) {
     console.log(`warning: ${warning}`);
@@ -167,32 +140,7 @@ const cDetail = (s: string): string => `\x1B[90m${s}\x1B[0m`;
  * @param options - Target selection; see {@link RunDnaTestOptions}.
  */
 export async function checkDna(options: RunDnaTestOptions = {}): Promise<void> {
-  const fs = await import('node:fs');
-  const path = await import('node:path');
-  const { execSync } = await import('node:child_process');
-  const os = await import('node:os');
-  const { fileURLToPath } = await import('node:url');
-
-  const targetRoot = (options.targetRoot ?? process.cwd()).replace(/\\/g, '/');
-  const baseDnaRoot = resolveBaseDnaRoot(fs, fileURLToPath);
-  const baseVersion = readBaseVersion(fs, baseDnaRoot);
-  const host = createNodeHost(fs, path, execSync, os);
-
-  const bridge = await init();
-  let result: DnaInstantiationResult;
-  try {
-    const outcome = await bridge.instantiate(
-      host,
-      targetRoot,
-      baseDnaRoot,
-      baseVersion,
-      true,
-    );
-    if (isDnaBridgeError(outcome)) throw new Error(outcome.error);
-    result = outcome;
-  } catch (e) {
-    throw e instanceof Error ? e : new Error(describeThrown(e));
-  }
+  const { result } = await runEngine(options, true);
 
   if (result.pending.length > 0) {
     console.log(
@@ -208,6 +156,54 @@ export async function checkDna(options: RunDnaTestOptions = {}): Promise<void> {
         `${cAction('Then restore the generated files with')} ` +
         `${cCmd('git checkout -- <file>')}.`,
     );
+  }
+}
+
+/** What {@link runEngine} hands back to its callers. */
+interface EngineRun {
+  result: DnaInstantiationResult;
+  host: DnaHostCallbacks;
+  targetRoot: string;
+}
+
+/**
+ * Runs the engine once over the target project with the Node host and the
+ * bundled base DNA — the part {@link runDnaTest} and {@link checkDna}
+ * share.
+ * @param options - Target selection; see {@link RunDnaTestOptions}.
+ * @param checkOnly - Plan the run and write nothing.
+ * @returns The result, the host it ran with and the normalized target.
+ */
+async function runEngine(
+  options: RunDnaTestOptions,
+  checkOnly: boolean,
+): Promise<EngineRun> {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const { execSync } = await import('node:child_process');
+  const os = await import('node:os');
+  const { fileURLToPath } = await import('node:url');
+
+  const targetRoot = (options.targetRoot ?? process.cwd()).replace(/\\/g, '/');
+  const baseDnaRoot = resolveBaseDnaRoot(fs, fileURLToPath);
+  const baseVersion = readBaseVersion(fs, baseDnaRoot);
+  const host = createNodeHost(fs, path, execSync, os);
+
+  const bridge = await init();
+  try {
+    const outcome = await bridge.instantiate(
+      host,
+      targetRoot,
+      baseDnaRoot,
+      baseVersion,
+      checkOnly,
+    );
+    // The engine reports its own failures as `{ error }` — a Dart throw
+    // would reach us as an unreadable `WebAssembly.Exception`.
+    if (isDnaBridgeError(outcome)) throw new Error(outcome.error);
+    return { result: outcome, host, targetRoot };
+  } catch (e) {
+    throw e instanceof Error ? e : new Error(describeThrown(e));
   }
 }
 
