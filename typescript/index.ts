@@ -12,7 +12,12 @@ export {
   type WasmGcSupport,
 } from './compat.js';
 
-export { runDnaTest, type RunDnaTestOptions } from './runDnaTest.js';
+export {
+  checkDna,
+  modifiedDnaMessage,
+  runDnaTest,
+  type RunDnaTestOptions,
+} from './runDnaTest.js';
 
 // -----------------------------------------------------------------------------
 // Public TypeScript types — hand-written. These declare the JS-facing API
@@ -111,6 +116,16 @@ export interface DnaInstantiationResult {
    * commit (no repository, no git identity).
    */
   committed: boolean;
+  /**
+   * Generated files whose content was changed by hand. Filled by a
+   * `checkOnly` run, which writes nothing.
+   */
+  modified: string[];
+  /**
+   * Project paths a `checkOnly` run would write or delete because the DNA
+   * produces something new — a DNA update, not a local change.
+   */
+  pending: string[];
 }
 
 /**
@@ -140,7 +155,8 @@ export interface DartBridge {
    * Runs one DNA instantiation over `targetRoot` with host access injected
    * via `host`. `baseDnaRoot` points at the bundled helix package root
    * (its `dna/` subfolder is the implicit base layer); `baseVersion` is
-   * the helix version recorded in the manifest.
+   * the helix version recorded in the manifest. `checkOnly` plans the
+   * run and writes nothing; see `modified` and `pending` of the result.
    *
    * Resolves to a {@link DnaBridgeError} when the run failed. The engine
    * runs git through the host, which answers asynchronously, so the
@@ -151,6 +167,7 @@ export interface DartBridge {
     targetRoot: string,
     baseDnaRoot: string | null,
     baseVersion: string,
+    checkOnly?: boolean,
   ): Promise<DnaInstantiationResult | DnaBridgeError>;
 }
 

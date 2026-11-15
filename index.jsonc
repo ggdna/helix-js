@@ -15,7 +15,7 @@
   "domain": [
     "DNA instantiation and verification for TypeScript",
     "helix engine core as wasm, file system and git injected from JS",
-    "runDnaTest for Vitest",
+    "checkDna for Vitest: generated files unchanged, writes nothing; runDnaTest instantiates",
   ],
 
   // The repos this one depends on and the repos depending on it.
@@ -30,7 +30,7 @@
     // "<repo-b>": "why / API"
     "usedBy": {
       "dna-ts": "DNA engine, runDnaTest",
-      "TypeScript repos": "runDnaTest in test/dna/dna.spec.ts",
+      "TypeScript repos": "checkDna in test/dna/dna.spec.ts",
     },
   },
 }
