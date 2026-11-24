@@ -74,17 +74,17 @@ export function describeHandEdits(
   return paths
     .map((path) => {
       const source = sources[path];
-      const restore = `${cCmd(`git checkout -- ${path}`)}`;
-      if (source === undefined) {
-        return `${cAction('Restore')} ${cCmd(path)} ${cAction('with')} ${restore}.`;
-      }
+      const restore =
+        `${cAction('Restore')} ${cCmd(path)} ${cAction('with')} ` +
+        cCmd(`git checkout -- ${path}`);
+      if (source === undefined) return `${restore}.`;
       return missing.includes(path)
-        ? `${cAction('Restore')} ${cCmd(path)} ${cAction('with')} ${restore}` +
-            `${cAction(', or remove it from')} ${cCmd(source)} ` +
+        ? `${restore}${cAction(', or remove it from')} ${cCmd(source)} ` +
             `${cAction('to drop it')}.`
         : `${cAction('Move edits from')} ${cCmd(path)} ` +
             `${cAction('to')} ${cCmd(source)}` +
-            `${cAction(', then restore it with')} ${restore}.`;
+            `${cAction(', then restore it with')} ` +
+            `${cCmd(`git checkout -- ${path}`)}.`;
     })
     .join('\n');
 }
