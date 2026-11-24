@@ -55,6 +55,40 @@ export function describeDnaSources(
     .join('\n');
 }
 
+/**
+ * Renders one instruction per path a {@link checkDna} found changed or
+ * deleted by hand (verbatim from helix): a changed file's edits belong in
+ * its DNA source, a deleted file comes back from git — and to drop it for
+ * good, it is removed from its DNA source. A path without a DNA source is
+ * restored only.
+ * @param paths - The hand-edited paths, project-relative.
+ * @param missing - The part of `paths` that was deleted.
+ * @param sources - The DNA source of each path that has one.
+ * @returns One line per path.
+ */
+export function describeHandEdits(
+  paths: string[],
+  missing: string[],
+  sources: Record<string, string>,
+): string {
+  return paths
+    .map((path) => {
+      const source = sources[path];
+      const restore =
+        `${cAction('Restore')} ${cCmd(path)} ${cAction('with')} ` +
+        cCmd(`git checkout -- ${path}`);
+      if (source === undefined) return `${restore}.`;
+      return missing.includes(path)
+        ? `${restore}${cAction(', or remove it from')} ${cCmd(source)} ` +
+            `${cAction('to drop it')}.`
+        : `${cAction('Move edits from')} ${cCmd(path)} ` +
+            `${cAction('to')} ${cCmd(source)}` +
+            `${cAction(', then restore it with')} ` +
+            `${cCmd(`git checkout -- ${path}`)}.`;
+    })
+    .join('\n');
+}
+
 /** Options for {@link runDnaTest}. */
 export interface RunDnaTestOptions {
   /**
@@ -117,7 +151,8 @@ export async function runDnaTest(
 }
 
 /** Headline of a failed {@link checkDna} (verbatim from helix). */
-export const modifiedDnaMessage = 'Generated DNA files were changed by hand:';
+export const modifiedDnaMessage =
+  'Generated DNA files were changed or deleted by hand:';
 
 const cDetail = (s: string): string => `\x1B[90m${s}\x1B[0m`;
 
@@ -134,9 +169,11 @@ const cDetail = (s: string): string => `\x1B[90m${s}\x1B[0m`;
  * Proves that the files the DNA generated are unchanged, and changes
  * nothing — it writes no file, makes no backup and commits nothing:
  *
- * - a generated file changed by hand → throws, naming the DNA file each
- *   edit belongs in
- * - outstanding DNA updates → reported with `gg dna build`, not a failure
+ * - a generated file changed or deleted by hand — the managed block of
+ *   `CLAUDE.md` and `dna/_generated.json` included → throws, naming the
+ *   DNA file each edit belongs in
+ * - outstanding DNA updates (a newer helix or layer, a changed `dna/`)
+ *   → reported with `gg dna build`, not a failure
  * @param options - Target selection; see {@link RunDnaTestOptions}.
  */
 export async function checkDna(options: RunDnaTestOptions = {}): Promise<void> {
@@ -152,9 +189,7 @@ export async function checkDna(options: RunDnaTestOptions = {}): Promise<void> {
   if (result.modified.length > 0) {
     throw new Error(
       `\n${cError(modifiedDnaMessage)}\n` +
-        `${describeDnaSources(result.modified, result.sources)}\n` +
-        `${cAction('Then restore the generated files with')} ` +
-        `${cCmd('git checkout -- <file>')}.`,
+        describeHandEdits(result.modified, result.missing, result.sources),
     );
   }
 }

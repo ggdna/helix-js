@@ -29,9 +29,12 @@ test('generated dna files are unchanged', async () => {
 `process.cwd()`, override via `checkDna({ targetRoot })`) and writes,
 backs up and commits nothing:
 
-- **a generated file changed by hand** → fails and names the DNA file the
-  edit belongs in (`Generated DNA files were changed by hand: …`)
-- **outstanding DNA updates** → reported with `gg dna build`, passes
+- **a generated file changed or deleted by hand** — the managed block of
+  `CLAUDE.md` and `dna/_generated.json` included → fails and names the
+  DNA file the edit belongs in and the `git checkout` that restores it
+  (`Generated DNA files were changed or deleted by hand: …`)
+- **outstanding DNA updates** (a newer helix, a changed layer or `dna/`)
+  → reported with `gg dna build`, passes
 - otherwise → passes silently
 
 The bundled engine needs Node 24 or newer: older versions cannot compile

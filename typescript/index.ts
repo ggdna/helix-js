@@ -14,6 +14,7 @@ export {
 
 export {
   checkDna,
+  describeHandEdits,
   modifiedDnaMessage,
   runDnaTest,
   type RunDnaTestOptions,
@@ -117,10 +118,13 @@ export interface DnaInstantiationResult {
    */
   committed: boolean;
   /**
-   * Generated files whose content was changed by hand. Filled by a
+   * Generated files that were changed or deleted by hand — the managed
+   * block of `CLAUDE.md` and `dna/_generated.json` included. Filled by a
    * `checkOnly` run, which writes nothing.
    */
   modified: string[];
+  /** The part of `modified` that was deleted by hand. */
+  missing: string[];
   /**
    * Project paths a `checkOnly` run would write or delete because the DNA
    * produces something new — a DNA update, not a local change.
