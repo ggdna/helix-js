@@ -238,6 +238,24 @@ describe('checkDna (wasm engine, node host)', () => {
   );
 
   test.skipIf(!runnable)(
+    'fails on a deleted DNA file and names how to restore it',
+    async () => {
+      const root = makeFixture();
+      await runDnaTest({ targetRoot: root });
+
+      rmSync(join(root, 'doc', 'hello.md'));
+      await expect(checkDna({ targetRoot: root })).rejects.toThrowError(
+        new RegExp(
+          `${modifiedDnaMessage}[\\s\\S]*git checkout -- doc/hello\\.md`,
+        ),
+      );
+      expect(existsSync(join(root, 'doc', 'hello.md'))).toBe(false);
+      expect(status(root)).toBe('D doc/hello.md');
+    },
+    120000,
+  );
+
+  test.skipIf(!runnable)(
     'reports outstanding DNA updates without writing them',
     async () => {
       const root = makeFixture();

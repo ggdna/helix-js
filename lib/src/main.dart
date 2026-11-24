@@ -115,7 +115,7 @@ extension type _BridgeErrorJs._(JSObject _) implements JSObject {
 
 /// JS view of a [DnaInstantiationResult]: `{ messages, warnings,
 /// backedUp, backupDir, updated, uncommittedTargets, sources,
-/// committed, modified, pending }`.
+/// committed, modified, missing, pending }`.
 extension type _InstantiationResultJs._(JSObject _) implements JSObject {
   external _InstantiationResultJs({
     required JSArray<JSString> messages,
@@ -127,6 +127,7 @@ extension type _InstantiationResultJs._(JSObject _) implements JSObject {
     required JSObject sources,
     required bool committed,
     required JSArray<JSString> modified,
+    required JSArray<JSString> missing,
     required JSArray<JSString> pending,
   });
 }
@@ -253,6 +254,7 @@ class DartBridge {
         sources: _toJsRecord(result.sources),
         committed: result.committed,
         modified: _toJsStrings(result.modified),
+        missing: _toJsStrings(result.missing),
         pending: _toJsStrings(result.pending),
       );
     });
