@@ -5,7 +5,7 @@
       "name": "base",
       "package": "helix",
       "ecosystem": null,
-      "resolvedVersion": "1.15.0",
+      "resolvedVersion": "1.15.2",
       "via": null,
       "hash": "0x6883da335b415f9d"
     },
@@ -124,10 +124,12 @@
   ],
   "claude": {
     "claudeMdInclude": null,
-    "claudeMdFromDna": true
+    "claudeMdFromDna": true,
+    "blockHash": "0x24c24315d2f20621"
   },
-  "baseVersion": "1.15.0",
+  "baseVersion": "1.15.2",
   "baseHash": "0x6883da335b415f9d",
+  "configHash": "0xb96ee05e206c1443",
   "instances": [
     {
       "path": ".claude/CLAUDE_dna_gg.md",
