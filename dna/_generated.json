@@ -15,7 +15,7 @@
       "ecosystem": "node",
       "resolvedVersion": "0.4.1",
       "via": "dna-ggdna",
-      "hash": "0xa3c5606fe4805c9a"
+      "hash": "0x56cffaefbd456c46"
     },
     {
       "name": "dna-readme",
@@ -79,7 +79,7 @@
       "ecosystem": "node",
       "resolvedVersion": "0.5.1",
       "via": "dna-ggdna",
-      "hash": "0xeac48c10ffc91f19"
+      "hash": "0x4b0a9c8a68fd4549"
     },
     {
       "name": "dna-scripts",
@@ -119,7 +119,7 @@
       "ecosystem": null,
       "resolvedVersion": null,
       "via": null,
-      "hash": "0xad52773fad57a23f"
+      "hash": "0x3367b2a9f484f063"
     }
   ],
   "claude": {
@@ -254,11 +254,11 @@
     },
     {
       "path": "doc/de/guides/code-guide-dart.md",
-      "hash": "0xb47af577cbb210ab"
+      "hash": "0x7a5ac5175f1a49bc"
     },
     {
       "path": "doc/de/guides/code-guide-typescript.md",
-      "hash": "0xb9e868dcb72505fc"
+      "hash": "0x007a1095b787d19b"
     },
     {
       "path": "doc/de/guides/code-guide.md",
@@ -274,7 +274,7 @@
     },
     {
       "path": "doc/de/guides/dna-guide.md",
-      "hash": "0x1dc92229edc17bf2"
+      "hash": "0x93df59caa5f96c4b"
     },
     {
       "path": "doc/de/guides/dna-guides-guide.md",
@@ -570,11 +570,11 @@
     },
     {
       "path": "doc/fa/guides/code-guide-dart.md",
-      "hash": "0x0ef18c12144facfd"
+      "hash": "0x5566904c82683cd0"
     },
     {
       "path": "doc/fa/guides/code-guide-typescript.md",
-      "hash": "0x08c7602d465003bc"
+      "hash": "0x7adb549f3dc72cde"
     },
     {
       "path": "doc/fa/guides/code-guide.md",
@@ -590,7 +590,7 @@
     },
     {
       "path": "doc/fa/guides/dna-guide.md",
-      "hash": "0x5afbf52318318bda"
+      "hash": "0xda5bb5838be6f3c1"
     },
     {
       "path": "doc/fa/guides/dna-guides-guide.md",
@@ -702,7 +702,7 @@
     },
     {
       "path": "doc/fa/hello_world.md",
-      "hash": "0xf913d4081a89d870"
+      "hash": "0x6726119e435a8a2c"
     },
     {
       "path": "doc/fa/templates/blog-template.md",

@@ -72,14 +72,14 @@ static example(options: Partial<UserOptions> = {}): User {
 
 ## Einheitlich benennen <a id="name-things-consistently"></a>
 
-| Konstrukt | Stil | Beispiel |
-| --- | --- | --- |
-| Klasse, Interface, Typ | PascalCase | `BlobStorage` |
-| Datei | kebab-case | `blob-storage.ts` |
-| Testdatei | `<filename>.spec.ts` | `blob-storage.spec.ts` |
-| Funktion, Variable | lowerCamelCase | `readItem` |
-| Konstante | lowerCamelCase | `carriageReturn` |
-| Enum-Wert | lowerCamelCase | `Status.success` |
+| Konstrukt              | Stil                 | Beispiel               |
+| ---------------------- | -------------------- | ---------------------- |
+| Klasse, Interface, Typ | PascalCase           | `BlobStorage`          |
+| Datei                  | kebab-case           | `blob-storage.ts`      |
+| Testdatei              | `<filename>.spec.ts` | `blob-storage.spec.ts` |
+| Funktion, Variable     | lowerCamelCase       | `readItem`             |
+| Konstante              | lowerCamelCase       | `carriageReturn`       |
+| Enum-Wert              | lowerCamelCase       | `Status.success`       |
 
 ## Das vermeiden <a id="avoid-these"></a>
 

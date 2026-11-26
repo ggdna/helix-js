@@ -45,14 +45,14 @@ gg dna add dna_ggdna
 `dna/` spiegelt die Wurzel des nutzenden Repos — was unter `dna/x/y` liegt,
 wird nach `x/y` instanziiert:
 
-| In der Schicht | Instanziiert nach |
-| --- | --- |
-| `dna/LICENSE` | `LICENSE` |
-| `dna/doc/en/guides/x-guide.md` | `doc/en/guides/x-guide.md` |
-| `dna/dot-vscode/settings.json` | `.vscode/settings.json` |
-| `dna/dot-claude/skills/x/SKILL.md` | `.claude/skills/x/SKILL.md` |
-| `dna/CLAUDE.md` | den verwalteten Block von `CLAUDE.md` |
-| `dna/_vars.json` | — privat, bleibt drinnen |
+| In der Schicht                     | Instanziiert nach                     |
+| ---------------------------------- | ------------------------------------- |
+| `dna/LICENSE`                      | `LICENSE`                             |
+| `dna/doc/en/guides/x-guide.md`     | `doc/en/guides/x-guide.md`            |
+| `dna/dot-vscode/settings.json`     | `.vscode/settings.json`               |
+| `dna/dot-claude/skills/x/SKILL.md` | `.claude/skills/x/SKILL.md`           |
+| `dna/CLAUDE.md`                    | den verwalteten Block von `CLAUDE.md` |
+| `dna/_vars.json`                   | — privat, bleibt drinnen              |
 
 Ein führender Punkt wird als `dot-` maskiert, weil das Veröffentlichen auf
 pub jeden Pfad verwirft, der mit einem Punkt beginnt. Jedes Pfadsegment,
@@ -66,7 +66,7 @@ das mit `_` beginnt, ist privat und wird nie instanziiert.
 {
   "version": 1,
   // Application order — later layers win.
-  "layers": ["dna_readme", "dna_guides"]
+  "layers": ["dna_readme", "dna_guides"],
 }
 ```
 

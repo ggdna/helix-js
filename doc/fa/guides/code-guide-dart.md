@@ -66,14 +66,14 @@ factory User.example({String? name, int? age}) =>
 
 ## نام‌گذاری یکدست <a id="name-things-consistently"></a>
 
-| ساختار | سبک | مثال |
-| --- | --- | --- |
-| کلاس | PascalCase | `RouterDelegate` |
-| فایل | snake_case | `router_delegate.dart` |
-| فایل تست | `<filename>_test.dart` | `router_delegate_test.dart` |
-| عضو خصوصی | `_camelCase` | `_updateState` |
-| ثابت | `lowerCamelCase` | `carriageReturn` |
-| مقدار enum | `lowerCamelCase` | `Status.success` |
+| ساختار     | سبک                    | مثال                        |
+| ---------- | ---------------------- | --------------------------- |
+| کلاس       | PascalCase             | `RouterDelegate`            |
+| فایل       | snake_case             | `router_delegate.dart`      |
+| فایل تست   | `<filename>_test.dart` | `router_delegate_test.dart` |
+| عضو خصوصی  | `_camelCase`           | `_updateState`              |
+| ثابت       | `lowerCamelCase`       | `carriageReturn`            |
+| مقدار enum | `lowerCamelCase`       | `Status.success`            |
 
 ## از این‌ها پرهیز کن <a id="avoid-these"></a>
 

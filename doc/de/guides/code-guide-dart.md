@@ -69,14 +69,14 @@ factory User.example({String? name, int? age}) =>
 
 ## Einheitlich benennen <a id="name-things-consistently"></a>
 
-| Konstrukt | Stil | Beispiel |
-| --- | --- | --- |
-| Klasse | PascalCase | `RouterDelegate` |
-| Datei | snake_case | `router_delegate.dart` |
-| Testdatei | `<filename>_test.dart` | `router_delegate_test.dart` |
-| Privater Member | `_camelCase` | `_updateState` |
-| Konstante | `lowerCamelCase` | `carriageReturn` |
-| Enum-Wert | `lowerCamelCase` | `Status.success` |
+| Konstrukt       | Stil                   | Beispiel                    |
+| --------------- | ---------------------- | --------------------------- |
+| Klasse          | PascalCase             | `RouterDelegate`            |
+| Datei           | snake_case             | `router_delegate.dart`      |
+| Testdatei       | `<filename>_test.dart` | `router_delegate_test.dart` |
+| Privater Member | `_camelCase`           | `_updateState`              |
+| Konstante       | `lowerCamelCase`       | `carriageReturn`            |
+| Enum-Wert       | `lowerCamelCase`       | `Status.success`            |
 
 ## Das vermeiden <a id="avoid-these"></a>
 

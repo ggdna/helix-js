@@ -69,14 +69,14 @@ static example(options: Partial<UserOptions> = {}): User {
 
 ## نام‌گذاری یکدست <a id="name-things-consistently"></a>
 
-| ساختار | سبک | مثال |
-| --- | --- | --- |
-| کلاس، interface، type | PascalCase | `BlobStorage` |
-| فایل | kebab-case | `blob-storage.ts` |
-| فایل تست | `<filename>.spec.ts` | `blob-storage.spec.ts` |
-| تابع، متغیر | lowerCamelCase | `readItem` |
-| ثابت | lowerCamelCase | `carriageReturn` |
-| مقدار enum | lowerCamelCase | `Status.success` |
+| ساختار                | سبک                  | مثال                   |
+| --------------------- | -------------------- | ---------------------- |
+| کلاس، interface، type | PascalCase           | `BlobStorage`          |
+| فایل                  | kebab-case           | `blob-storage.ts`      |
+| فایل تست              | `<filename>.spec.ts` | `blob-storage.spec.ts` |
+| تابع، متغیر           | lowerCamelCase       | `readItem`             |
+| ثابت                  | lowerCamelCase       | `carriageReturn`       |
+| مقدار enum            | lowerCamelCase       | `Status.success`       |
 
 ## از این‌ها پرهیز کن <a id="avoid-these"></a>
 

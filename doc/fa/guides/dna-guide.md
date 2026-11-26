@@ -44,14 +44,14 @@ gg dna add dna_ggdna
 `dna/` ریشه‌ی مخزنِ مصرف‌کننده را بازتاب می‌دهد — آنچه در `dna/x/y` قرار دارد
 در `x/y` نمونه‌سازی می‌شود:
 
-| در لایه | نمونه‌سازی در |
-| --- | --- |
-| `dna/LICENSE` | `LICENSE` |
-| `dna/doc/en/guides/x-guide.md` | `doc/en/guides/x-guide.md` |
-| `dna/dot-vscode/settings.json` | `.vscode/settings.json` |
-| `dna/dot-claude/skills/x/SKILL.md` | `.claude/skills/x/SKILL.md` |
-| `dna/CLAUDE.md` | بلوکِ مدیریت‌شده‌ی `CLAUDE.md` |
-| `dna/_vars.json` | — خصوصی، داخل می‌ماند |
+| در لایه                            | نمونه‌سازی در                  |
+| ---------------------------------- | ------------------------------ |
+| `dna/LICENSE`                      | `LICENSE`                      |
+| `dna/doc/en/guides/x-guide.md`     | `doc/en/guides/x-guide.md`     |
+| `dna/dot-vscode/settings.json`     | `.vscode/settings.json`        |
+| `dna/dot-claude/skills/x/SKILL.md` | `.claude/skills/x/SKILL.md`    |
+| `dna/CLAUDE.md`                    | بلوکِ مدیریت‌شده‌ی `CLAUDE.md` |
+| `dna/_vars.json`                   | — خصوصی، داخل می‌ماند          |
 
 نقطه‌ی ابتدایی به صورت `dot-` نوشته می‌شود، چون انتشار در pub هر مسیری را که
 با نقطه شروع شود حذف می‌کند. هر بخش از مسیر که با `_` شروع شود خصوصی است و
@@ -65,7 +65,7 @@ gg dna add dna_ggdna
 {
   "version": 1,
   // Application order — later layers win.
-  "layers": ["dna_readme", "dna_guides"]
+  "layers": ["dna_readme", "dna_guides"],
 }
 ```
 
