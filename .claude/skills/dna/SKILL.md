@@ -13,7 +13,7 @@ found in the LICENSE file in the root of this package.
 
 # DNA
 
-Read `doc/guides/dna-guide.md` and follow it.
+Read `doc/en/guides/dna-guide.md` and follow it.
 
 ## 1. Check the layout
 
@@ -26,6 +26,9 @@ a file that would land somewhere the consumer does not expect.
 Report a `dna/_dna.json` whose `layers` name something that is not a
 declared dependency, and a dependency that ships a `dna/` folder but is
 missing from `layers` — a dependency that is not listed is not a layer.
+
+Report a `dna/_dna.json` without `"isLayer": true` — without it, nobody
+checks that every section carries a tag.
 
 ## 3. Check the variables
 
