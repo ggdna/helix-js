@@ -1,6 +1,6 @@
 {
   "name": "@tssuite/helix-js",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "WASM version of helix, the DNA engine.",
   "keywords": [
     "dna",
@@ -50,7 +50,7 @@
     "prepublishOnly": "pnpm run build && pnpm run test"
   },
   "devDependencies": {
-    "@ggdna/dna-ggdna": "^1.0.0",
+    "@ggdna/dna-ggdna": "^1.0.1",
     "@tssuite/helix-js": "^0.5.0",
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^5.0.5",
