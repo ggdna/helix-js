@@ -41,7 +41,7 @@ helix build      # the same run, without a test framework
 
 ## 4. چه چیزی کجا قرار می‌گیرد
 
-| در DNA                         | نمونه‌سازی در             |
+| در DNA                         | نمونه‌سازی در           |
 | ------------------------------ | ----------------------- |
 | `dna/LICENSE`                  | `LICENSE`               |
 | `dna/doc/hello_world.md`       | `doc/hello_world.md`    |
