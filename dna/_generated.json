@@ -23,7 +23,7 @@
       "ecosystem": "node",
       "resolvedVersion": "0.4.1",
       "via": "dna-ggdna",
-      "hash": "0x3fa94fd2d9b184c9"
+      "hash": "0xfb507a8f6df4e668"
     },
     {
       "name": "dna-guides",
@@ -39,7 +39,7 @@
       "ecosystem": "node",
       "resolvedVersion": "0.5.1",
       "via": "dna-ggdna",
-      "hash": "0x18124d421abec3df"
+      "hash": "0x5f5ce89a81e1d577"
     },
     {
       "name": "dna-index",
@@ -103,7 +103,7 @@
       "ecosystem": "node",
       "resolvedVersion": "1.9.2",
       "via": "dna-ggdna",
-      "hash": "0xae61f4cdf52c3c46"
+      "hash": "0x69460d3415cdf522"
     },
     {
       "name": "dna-ggdna",
@@ -119,7 +119,7 @@
       "ecosystem": null,
       "resolvedVersion": null,
       "via": null,
-      "hash": "0x3367b2a9f484f063"
+      "hash": "0x3ab9b541187aebae"
     }
   ],
   "claude": {
@@ -378,7 +378,7 @@
     },
     {
       "path": "doc/de/guides/translate-guide.md",
-      "hash": "0x64445c50b313a075"
+      "hash": "0x1e3aa3018e55f185"
     },
     {
       "path": "doc/de/guides/vscode-guide.md",
@@ -386,7 +386,7 @@
     },
     {
       "path": "doc/de/hello_world.md",
-      "hash": "0xd10b80f2f292f8f4"
+      "hash": "0x8540c8ba6e1bae19"
     },
     {
       "path": "doc/de/templates/blog-template.md",
@@ -534,7 +534,7 @@
     },
     {
       "path": "doc/en/guides/translate-guide.md",
-      "hash": "0xc994f3c548cabced"
+      "hash": "0x56cf122bb86eb1d0"
     },
     {
       "path": "doc/en/guides/vscode-guide.md",
@@ -618,7 +618,7 @@
     },
     {
       "path": "doc/fa/guides/install-guide.md",
-      "hash": "0x88b0e77344e2cf9c"
+      "hash": "0xf82f4a08c2e59394"
     },
     {
       "path": "doc/fa/guides/install-guide/install-azure-cli-guide.md",
@@ -694,7 +694,7 @@
     },
     {
       "path": "doc/fa/guides/translate-guide.md",
-      "hash": "0xeb5fea6b74ec2eab"
+      "hash": "0x95f8dc20efd82f38"
     },
     {
       "path": "doc/fa/guides/vscode-guide.md",
@@ -702,7 +702,7 @@
     },
     {
       "path": "doc/fa/hello_world.md",
-      "hash": "0x6726119e435a8a2c"
+      "hash": "0xdafe662d6828672c"
     },
     {
       "path": "doc/fa/templates/blog-template.md",
@@ -718,7 +718,7 @@
     },
     {
       "path": "scripts/check-readme.js",
-      "hash": "0xe197f5b3961d8d15"
+      "hash": "0x6c42154b4780e8c5"
     },
     {
       "path": "scripts/delete-feature-branch.js",

@@ -11,9 +11,9 @@ found in the LICENSE file in the root of this package.
 ## Know the languages
 
 - This repo keeps its documentation in these languages, the leading one
-  first: `en`. The DNA variable that sets them is listed in
-  `dna/_vars.json`; change it in the `vars` of `dna/_dna.json`, as
-  two-letter codes separated by commas, e.g. `en,de,fa`
+  first: `en`. Change them in the `vars` of `dna/_dna.json`,
+  under the key `dna` + `Languages` written as one word, as two-letter
+  codes separated by commas, e.g. `"en,de,fa"`
 - Every language has its own folders: `doc/<lang>` for the documentation
   that belongs to no quarter, `pm/<lang>/<yyyy>-Q<n>` for what is planned
   and written in a quarter, e.g. the blog

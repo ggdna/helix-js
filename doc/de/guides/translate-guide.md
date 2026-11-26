@@ -11,9 +11,9 @@ found in the LICENSE file in the root of this package.
 ## Die Sprachen kennen <a id="know-the-languages"></a>
 
 - Dieses Repo führt seine Dokumentation in diesen Sprachen, die Leitsprache
-  zuerst: `en`. Die DNA-Variable, die sie festlegt, steht in
-  `dna/_vars.json`; ändere sie in den `vars` von `dna/_dna.json`, als
-  Zwei-Buchstaben-Codes durch Kommas getrennt, z. B. `en,de,fa`
+  zuerst: `en`. Ändere sie in den `vars` von `dna/_dna.json`,
+  unter dem Schlüssel `dna` + `Languages` in einem Wort, als
+  Zwei-Buchstaben-Codes durch Kommas getrennt, z. B. `"en,de,fa"`
 - Jede Sprache hat eigene Ordner: `doc/<lang>` für die Dokumentation, die
   zu keinem Quartal gehört, `pm/<lang>/<yyyy>-Q<n>` für das, was in einem
   Quartal geplant und geschrieben wird, z. B. den Blog

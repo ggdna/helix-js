@@ -281,6 +281,9 @@ const checkPlaceholders = (md, markdown, template, prefix, findings) => {
 
   const sentences = [
     /<(?!https?:|!--)[A-Z][^<>]*>/g,
+    // Placeholders of the translated templates start with a letter beyond
+    // ASCII, e.g. Farsi
+    /<(?!https?:|!--)[^\x00-\x7F<>\s][^<>]*>/gu,
     /<[a-z][^<>=]*\s[^<>=/]*>/g,
   ];
   for (const pattern of sentences) {
@@ -308,6 +311,9 @@ const checkPlaceholders = (md, markdown, template, prefix, findings) => {
   for (const block of md.codeBlocks) {
     if (block.language !== 'text') continue;
     for (const m of block.code.matchAll(/<[A-Z][^<>]*\s[^<>]*>/g)) add(m[0]);
+    for (const m of block.code.matchAll(/<[^\x00-\x7F<>\s][^<>]*>/gu)) {
+      add(m[0]);
+    }
   }
 
   for (const placeholder of found) {
@@ -439,13 +445,18 @@ const checkTitleAndIntro = (md, pkg, findings) => {
   }
 };
 
-// The languages of the repo, the leading one first, from the merged DNA
-// variables in dna/_vars.json. The key is assembled, because the DNA would
-// replace the plain name with its value. Without the variable the README
-// keeps English and German, as before.
+// The languages of the repo, the leading one first. In a consuming repo the
+// DNA has replaced the name below with the merged value of the variable. In
+// the layer itself it is still the name; then the vars of dna/_dna.json
+// count, and without them the README keeps English and German, as before.
+// The key is assembled, so the DNA leaves it alone.
+const configured = 'en';
 const languagesOf = (repoDir) => {
-  const vars = readJsonc(repoDir, 'dna/_vars.json');
-  const value = vars?.['dna' + 'Languages'];
+  const key = 'dna' + 'Languages';
+  const value =
+    configured === key
+      ? readJsonc(repoDir, 'dna/_dna.json')?.vars?.[key]
+      : configured;
   if (typeof value !== 'string' || !value.trim()) return ['en', 'de'];
   return value
     .split(',')
@@ -453,7 +464,6 @@ const languagesOf = (repoDir) => {
     .filter((l) => /^[a-z]{2}$/.test(l));
 };
 
-const languageNames = { en: 'English', de: 'Deutsch', fa: 'فارسی' };
 const readmeOf = (lang) => (lang === 'en' ? 'README.md' : `README.${lang}.md`);
 const switcherRe = (lang) =>
   new RegExp(`\\]\\(\\.?\\/?${readmeOf(lang).replace(/\./g, '\\.')}\\)`);
